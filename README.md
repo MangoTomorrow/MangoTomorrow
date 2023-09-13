@@ -3,7 +3,7 @@
 @@@@@@@@@@@@@ TO DO @@@@@@@@@@@@@@
 checkout app for cpp lifting club
  
-** Authorizes the user based on given permissions to use certain equipment
+** Authorizes the user based on given permissions to use certain equipment \n
 ** Authorizes the user based on payment of subscription
 ** Keeps check of equipment usage
 ** (possible addition) Subscription management
