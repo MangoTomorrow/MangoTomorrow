@@ -14,5 +14,8 @@ app.listen(port, () => {
     console.log('Server listening to: ', port);
 });
 
+app.get('/Print_Hello_API', (req, res) =>{
+    res.send('hello world, this is Anthony Shen');
+})
 
 //http://localhost:48244/simpleAPI
