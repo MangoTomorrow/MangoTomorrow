@@ -1,4 +1,4 @@
-# MangoTomorrow using Node.js, Express.js
+# MangoTomorrow using Node.js, Express.js, React.js, Firebase
 
 @@@@@@@@@@@@@ TO DO @@@@@@@@@@@@@@
 checkout app for cpp lifting club
