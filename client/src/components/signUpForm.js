@@ -102,6 +102,8 @@ export default function SignUpForm() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={formData.firstName} 
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -112,6 +114,8 @@ export default function SignUpForm() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 />
               </Grid>
               <Grid item xs={12}>
