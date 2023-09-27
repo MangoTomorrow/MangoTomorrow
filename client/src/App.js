@@ -1,7 +1,9 @@
 
 import './App.css';
 import React from 'react';
-import HelloWorld from './A4example';
+import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
+
+import login from './components/login';
 
 function App() {
 
@@ -15,7 +17,11 @@ function App() {
   
   return (
     <div className="App">
-      
+      <Router>
+        <Routes>
+          <Route exact path="/" component={login} />
+        </Routes>
+      </Router>
     </div>
   );
 }
