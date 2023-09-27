@@ -58,6 +58,8 @@ export default function SignUpForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { firstName, lastName, email, password, allowExtraEmails } = formData;
+    
+    //if incorrect email format, console log. 
     if (!isValidEmail(email)) {
       console.error('Invalid email address');
       return;

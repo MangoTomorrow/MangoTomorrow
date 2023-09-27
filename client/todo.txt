@@ -1,0 +1,8 @@
+todo
+
+
+need to change diff console logs from bunch of functions to actual alerts for the users.
+    1. need to let user know that they need to verfiy their email to use the app
+    2. need to let the user know their email was in incorrect format
+    3. need to let the user know that their registration is successful so they are being moved to the main login page to login. 
+    4. when registration submit button is pressed, user needs to know alerts 1,3. or we can have some sort of text guidance on the page.
