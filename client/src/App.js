@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignIn from './components/login';
 
 
@@ -9,11 +9,11 @@ import SignIn from './components/login';
 function App() {
   return (
     <div className="App">
-      
+      <Router>
         <Routes>
           <Route path="/" element={<SignIn />} />
         </Routes>
-     
+      </Router>
     </div>
   );
 }
