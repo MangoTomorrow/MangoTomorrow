@@ -15,7 +15,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import signUp from './signUpLogic';
 import React, {useState} from 'react';
 
 
@@ -47,19 +46,7 @@ export default function SignIn() {
     });
   };
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  //sign up
-  const handleSignUp = async () => {
-    try {
-      await signUp(email,password);
-      //later put logic to maybe lead user back to home login page? 
-      console.log('sign-up successful');
-    } catch(error) {
-      console.error('error signing up:', error);
-    }
-  }
 
   return (
     <ThemeProvider theme={defaultTheme}>

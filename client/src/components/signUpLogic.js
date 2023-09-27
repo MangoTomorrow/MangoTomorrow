@@ -1,14 +1,21 @@
 //sign up logic to use with firebase authentication
 
-import {auth} from '../config/firebase-config';
+
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../config/firebase-config';
 
 
-
-
+console.log('auth object:', auth);
 
 const signUp = async (email, password) => {
+
+
+    console.log('auth object inside signUp:', auth);
+
+    
     try{
-        await auth.createUserWithEmailAndPassword(email, password);
+        
+        await createUserWithEmailAndPassword(auth, email, password);
         console.log('User created');
     } catch (error) {
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,13 +12,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import signUp from './signUpLogic';
+import React, {useState} from 'react';
+
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        MangoTomorrow
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -30,15 +33,45 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+
+
 export default function SignUpForm() {
-  const handleSubmit = (event) => {
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    allowExtraEmails: false,
+  });
+
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const { firstName, lastName, email, password, allowExtraEmails } = formData;
+    try {
+      //call the Firebase authentication function for user registration
+      await signUp(email, password);
+
+      
+
+      console.log('User registered successfully');
+
+      //clear the form fields
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        allowExtraEmails: false,
+      });
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+    }
   };
+
+
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -89,6 +122,8 @@ export default function SignUpForm() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -100,6 +135,8 @@ export default function SignUpForm() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
               </Grid>
               <Grid item xs={12}>
