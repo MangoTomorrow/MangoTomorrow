@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import signUp from './signUpLogic';
 import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -37,6 +38,13 @@ const defaultTheme = createTheme();
 
 export default function SignUpForm() {
 
+  //check email format
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -45,10 +53,15 @@ export default function SignUpForm() {
     allowExtraEmails: false,
   });
 
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { firstName, lastName, email, password, allowExtraEmails } = formData;
+    if (!isValidEmail(email)) {
+      console.error('Invalid email address');
+      return;
+    }
     try {
       //call the Firebase authentication function for user registration
       await signUp(email, password);
@@ -65,6 +78,8 @@ export default function SignUpForm() {
         password: '',
         allowExtraEmails: false,
       });
+      //direct user back to login page
+      navigate('/');
     } catch (error) {
       console.error('Error signing up:', error.message);
     }
