@@ -4,7 +4,7 @@
 
 
 
-const isValidEmail = require('./components/signUpForm');
+const isValidEmail = require('./signUpForm');
 
 test('Valid email addresses should return true', () => {
   expect(isValidEmail('test@example.com')).toBe(true);
