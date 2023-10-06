@@ -4,7 +4,10 @@
 
 
 
-const isValidEmail = require('./components/signUpForm');
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
 
 test('Valid email addresses should return true', () => {
   expect(isValidEmail('test@example.com')).toBe(true);
