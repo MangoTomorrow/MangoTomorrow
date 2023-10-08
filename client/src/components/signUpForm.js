@@ -43,7 +43,7 @@ export default function SignUpForm() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
-  module.exports = isValidEmail;
+  
 
   const [formData, setFormData] = useState({
     firstName: '',
