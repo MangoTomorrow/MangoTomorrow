@@ -4,7 +4,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -17,7 +17,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import { handleSignOut }  from './signOut';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 function Copyright() {
   return (
@@ -38,14 +40,26 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const defaultTheme = createTheme();
 
 export default function Album() {
+ 
+  const handleSignOutClick = async () => {
+    await handleSignOut();
+    window.location.href = '/'; // Redirect to the homepage
+  }
+
+  const handleSubscription = async() => {
+    window.location.href = '/getSubscription';
+  }
+
+
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
+          <FitnessCenterIcon sx={{ mr: 2 }} />
           <Typography variant="h6" color="inherit" noWrap>
-            Album layout
+            CPP Lifting Club
           </Typography>
         </Toolbar>
       </AppBar>
@@ -66,12 +80,10 @@ export default function Album() {
               color="text.primary"
               gutterBottom
             >
-              Album layout
+              Main Menu
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Something short and leading about the collection below—its contents,
-              the creator, etc. Make it short and sweet, but not too short so folks
-              don&apos;t simply skip over it entirely.
+              Can insert something here in the future.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -79,8 +91,8 @@ export default function Album() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
+              <Button onClick={handleSubscription} variant="contained">Subscribe</Button>
+              <Button onClick={handleSignOutClick} variant="outlined">Sign Out</Button>
             </Stack>
           </Container>
         </Box>
