@@ -19,15 +19,17 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install client Dependencies
-        run: npm --prefix client install
-  
+      - name: Install client dependencies
+        run: npm --prefix client ci --only=production
+
       - name: Build client
         run: npm --prefix client run build
-  
-      - name: Install server Dependencies
-        run: npm --prefix server install
-  
+
+      - name: Archive client build
+        uses: actions/upload-artifact@v2
+        with:
+          name: client-build
+          path: client/build
 
 
 
@@ -40,11 +42,24 @@ jobs:
         env:
           PEM_KEY: ${{ secrets.AWS_PEM }}
 
+      - name: Download client artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: client-build
+          path: client/build
+
       - name: Deploy to EC2
         run: |
             chmod 400 deploy_key.pem
             ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@18.144.107.141 \
-              "cd /home/ec2-user/cppLiftingClub/MangoTomorrow/server && \
+              "
+              cd /home/ec2-user/cppLiftingClub/MangoTomorrow/client && \
+              rm -rf build/* && \
+              tar xvzf $GITHUB_WORKSPACE/client/build.tar.gz && \
+
+              cd /home/ec2-user/cppLiftingClub/MangoTomorrow/server && \
               git pull origin main && \
-              npm install && \
+              npm ci --only=production && \
               pm2 restart server.js"
+
+ 
