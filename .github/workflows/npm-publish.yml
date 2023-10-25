@@ -42,7 +42,7 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          chmod 600 deploy_key.pem
+          chmod 400 deploy_key.pem
           ssh -i deploy_key.pem ec2-user@18.144.107.141 \
           "cd /cppLiftingClub/MangoTomorrow/server && \
           git pull origin main && \
