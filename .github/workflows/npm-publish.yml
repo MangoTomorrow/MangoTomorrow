@@ -51,7 +51,7 @@ jobs:
       - name: Deploy to EC2
         run: |
             chmod 400 deploy_key.pem
-            ssh -i deploy_key.pem ec2-user@18.144.107.141 \
+            ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@18.144.107.141 \
               "
               cd /home/ec2-user/cppLiftingClub/MangoTomorrow/client/build && \
               rm -rf && \
