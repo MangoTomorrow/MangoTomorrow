@@ -13,24 +13,26 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-        with:
-          path: ./MangoTomorrow 
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 16
 
-      - name: Change working directory
-        run: cd ./MangoTomorrow
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
-
-      - name: Build App
-        run: npm run build
+      - name: Install client Dependencies
+        run: npm --prefix client install
+  
+      - name: Test client
+        run: npm --prefix client test
+  
+      - name: Build client
+        run: npm --prefix client run build
+  
+      - name: Install server Dependencies
+        run: npm --prefix server install
+  
+      - name: Test server
+        run: npm --prefix server test
 
 
   deploy:
