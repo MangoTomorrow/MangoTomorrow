@@ -11,24 +11,38 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm ci
-      - run: npm test
-      - run: pm2 restart backendserver
 
-  publish-npm:
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build App
+        run: npm run build
+
+
+  deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+      - name: Set up SSH key
+        run: echo "${{ secrets.AWS_PEM }}" > deploy_key.pem
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          PEM_KEY: ${{ secrets.AWS_PEM }}
+
+      - name: Deploy to EC2
+        run: |
+          chmod 600 deploy_key.pem
+          ssh -i deploy_key.pem ec2-user@18.144.107.141 \
+          "cd /cppLiftingClub/MangoTomorrow/server && \
+          git pull origin main && \
+          pm2 restart server.js"
+
