@@ -13,12 +13,16 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          path: ./MangoTomorrow 
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 16
 
+      - name: Change working directory
+        run: cd ./MangoTomorrow
       - name: Install dependencies
         run: npm install
 
