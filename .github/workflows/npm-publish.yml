@@ -51,11 +51,11 @@ jobs:
       - name: Deploy to EC2
         run: |
             chmod 400 deploy_key.pem
-            ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@18.144.107.141 \
+            ssh -i deploy_key.pem ec2-user@18.144.107.141 \
               "
-              cd /home/ec2-user/cppLiftingClub/MangoTomorrow/client && \
-              rm -rf build/* && \
-              tar xvzf $GITHUB_WORKSPACE/client/build.tar.gz && \
+              cd /home/ec2-user/cppLiftingClub/MangoTomorrow/client/build && \
+              rm -rf && \
+              tar xvzf build.tar.gz && \
 
               cd /home/ec2-user/cppLiftingClub/MangoTomorrow/server && \
               git pull origin main && \
