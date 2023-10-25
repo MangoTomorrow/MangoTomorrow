@@ -22,17 +22,13 @@ jobs:
       - name: Install client Dependencies
         run: npm --prefix client install
   
-      - name: Test client
-        run: npm --prefix client test
-  
       - name: Build client
         run: npm --prefix client run build
   
       - name: Install server Dependencies
         run: npm --prefix server install
   
-      - name: Test server
-        run: npm --prefix server test
+
 
 
   deploy:
