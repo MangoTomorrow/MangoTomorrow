@@ -24,13 +24,26 @@ jobs:
             cd client && \
             npm ci && \
             npm run build 
+            cd build
            
 
-      - name: Build Tarball
-        run:  |
-            pwd
-            cd client/build && \
-            tar czf client-build.tar.gz --exclude client-build.tar.gz .
+  create-tarball:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Create Temporary Directory
+        run: mkdir temp_build
+
+      - name: Copy Files to Temporary Directory
+        run: cp -r client/build/* temp_build/
+
+      - name: Create Tarball
+        run: |
+          cd temp_build
+          tar czf client-build.tar.gz .
 
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
@@ -48,7 +61,7 @@ jobs:
 
 
   deploy:
-    needs: build
+    needs: create-tarball
     runs-on: ubuntu-latest
     steps:
       - name: Set up SSH key
