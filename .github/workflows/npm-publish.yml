@@ -21,11 +21,11 @@ jobs:
       
       - name: Build Tarball
         run: |
-
             cd MangoTomorrow/client && \
             npm ci --only=production && \
             npm client run build && \
-            tar czf client.build.tar.gz -C ./build
+            cd build && \
+            tar czf client.build.tar.gz .
 
 
 
