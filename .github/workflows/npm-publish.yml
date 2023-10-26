@@ -21,7 +21,6 @@ jobs:
       
       - name: npm ci and run build
         run: |
-            pwd
             cd client && \
             npm ci && \
             npm run build 
@@ -29,6 +28,7 @@ jobs:
 
       - name: Build Tarball
         run:  |
+            pwd
             cd build && \
             tar czf client.build.tar.gz .
 
