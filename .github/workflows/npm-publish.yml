@@ -43,7 +43,8 @@ jobs:
       - name: Create Tarball
         run: |
           cd temp_build
-          tar czf client-build.tar.gz .
+          touch client-build.tar.gz
+          tar czf client-build.tar.gz --exclude=client-build.tar.gz .
 
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
