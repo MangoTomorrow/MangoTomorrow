@@ -18,15 +18,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
+      
+      - name: Build Tarball
+        run: |
 
-      - name: Install client dependencies
-        run: npm --prefix client ci --only=production
+            cd MangoTomorrow/client && \
+            npm ci --only=production && \
+            npm client run build && \
+            tar czf client.build.tar.gz -C ./build
 
-      - name: Build client
-        run: npm --prefix client run build
 
-      - name: Compress build folder
-        run: tar czf client-build.tar.gz -C ./build
 
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
