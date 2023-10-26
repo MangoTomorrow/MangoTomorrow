@@ -22,7 +22,7 @@ jobs:
       - name: Build Tarball
         run: |
             pwd
-            cd MangoTomorrow/client && \
+            cd client && \
             npm ci --only=production && \
             npm client run build && \
             cd build && \
