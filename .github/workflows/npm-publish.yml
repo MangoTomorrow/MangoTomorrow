@@ -30,7 +30,7 @@ jobs:
         run:  |
             pwd
             cd client/build && \
-            tar czf client-build.tar.gz --exclude client.build.tar.gz .
+            tar czf client-build.tar.gz --exclude client-build.tar.gz .
 
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
