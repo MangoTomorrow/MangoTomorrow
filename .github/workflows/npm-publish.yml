@@ -55,7 +55,7 @@ jobs:
               "
               cd /home/ec2-user/cppLiftingClub/MangoTomorrow/client/build && \
               rm -rf && \
-              tar xvzf build.tar.gz && \
+              tar xvzf client-build/client/build.tar.gz && \
 
               cd /home/ec2-user/cppLiftingClub/MangoTomorrow/server && \
               git pull origin main && \
