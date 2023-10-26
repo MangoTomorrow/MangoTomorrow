@@ -42,11 +42,7 @@ jobs:
         env:
           PEM_KEY: ${{ secrets.AWS_PEM }}
 
-      - name: Download client artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: client-build
-          path: client/build
+
 
       - name: Deploy to EC2
         run: |
@@ -54,12 +50,13 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@18.144.107.141 \
               "
               cd /home/ec2-user/cppLiftingClub/MangoTomorrow/client/build && \
-              rm -rf && \
-              tar xvzf client-build/client/build.tar.gz && \
+              rm -rf * && \
+              wget -O client-build.tar.gz https://api.github.com/repos/MangoTomorrow/MangoTomorrow/actions/artifacts/client-build/raw/client/build.tar.gz
+              tar xvzf client-build.tar.gz && \
 
               cd /home/ec2-user/cppLiftingClub/MangoTomorrow/server && \
               git pull origin main && \
               npm ci --only=production && \
               pm2 restart server.js"
 
- 
+              
