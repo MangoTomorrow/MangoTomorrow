@@ -24,14 +24,14 @@ jobs:
             pwd
             cd client && \
             npm ci && \
-            npm run build && \
+            npm run build 
            
 
       - name: Build Tarball
         run:  |
             cd build && \
             tar czf client.build.tar.gz .
-            
+
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
