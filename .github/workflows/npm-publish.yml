@@ -55,6 +55,7 @@ jobs:
 
       - name: Upload tarball to s3
         run: |
+          cd temp_build
           aws s3 cp client-build.tar.gz s3://cpplifting/
         
       
