@@ -23,8 +23,8 @@ jobs:
         run: |
             pwd
             cd client && \
-            npm ci --only=production && \
-            npm client run build && \
+            npm ci && \
+            npm run build && \
             cd build && \
             tar czf client.build.tar.gz .
 
