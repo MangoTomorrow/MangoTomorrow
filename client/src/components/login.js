@@ -81,8 +81,8 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <FitnessCenterIcon sx={{ mr: 2 }}/>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main', display: 'flex', justifyContent: 'center' }}>
+              <FitnessCenterIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               CPP Lifting Club
