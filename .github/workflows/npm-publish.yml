@@ -8,7 +8,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+
+  create-tarball:
+    
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -25,14 +27,6 @@ jobs:
             npm ci && \
             npm run build 
             cd build
-           
-
-  create-tarball:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
 
       - name: Create Temporary Directory
         run: mkdir temp_build
