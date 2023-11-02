@@ -1,7 +1,6 @@
 //main login/home page
 
 import * as React from 'react';
-import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -38,40 +37,12 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState(null);
   const onLoginSuccess = () => {
-    checkUserRole();
+    navigate('/memberDashboard');
   };
   const onLoginFailure = (error) => {
     console.error('login fail', error);
-  };
-
-  const handleLoginSuccess = () => {
-    setUserRole(userRole);
-
-    if (userRole === 'admin') {
-      navigate('/adminDashboard');
-    } else {
-      navigate('/memberDashboard');
-    }
-  };
-  const checkUserRole = (userId) => {
-    fetch('/checkUserRole', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const userRole = data.role;
-        setUserRole(userRole);
-        handleLoginSuccess();
-      })
-      .catch((error) => {
-        onLoginFailure(error);
-      });
-  };
-
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
