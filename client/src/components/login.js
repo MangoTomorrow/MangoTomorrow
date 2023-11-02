@@ -38,11 +38,15 @@ const defaultTheme = createTheme();
 export default function SignInSide() {
   const navigate = useNavigate();
   const onLoginSuccess = () => {
-    navigate('/memberDashboard');
+    if (userRole === 'admin') {
+      navigate('/adminDashboard');
+    } else {
+      navigate('/memberDashboard');
+    }
   };
   const onLoginFailure = (error) => {
     console.error('login fail', error);
-  }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
