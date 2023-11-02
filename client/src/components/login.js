@@ -37,7 +37,7 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const onLoginSuccess = () => {
+  const onLoginSuccess = (userRole) => {
     if (userRole === 'admin') {
       navigate('/adminDashboard');
     } else {
