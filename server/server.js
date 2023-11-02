@@ -6,8 +6,8 @@ const app = express();
 const port = process.env.PORT || 8080;
 const path = require('path');
 const admin = require('firebase-admin');
-const serviceAccount = require('/cppLiftingClub/cppLiftingClubKey.json');
-
+const serviceAccount = require('process.env.FIREBASE_SERVICE_ACCOUNT');
+const { UserRecord } = require('firebase-admin/lib/auth/user-record');
 
 
 
@@ -25,8 +25,8 @@ app.listen(port, () => {
   });
 
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
   databaseURL: 'https://cppliftingclub.firebaseapp.com',
 });
 
@@ -40,9 +40,9 @@ admin.auth().setCustomUserClaims('k5lytXLgRQROo7rU3Eiih1ew8Rt2', {admin: true});
 app.post('/checkUserRole', (req, res) => {
   const userId = req.body.userId;  //user id here will be sent by client to server to check role
   
-  admin.auth().getUser(userId).then((userRecord) => {
+  admin.auth().getUser(userId).then((UserRecord) => {
     // if user record and claim show admin = true then respond with 'admin' or 'member' if not
-    if(userRecord.customClaims && userRecord.customClaims.admin === true) {
+    if(UserRecord.customClaims && UserRecord.customClaims.admin === true) {
       res.json({role:'admin'});
     } else{
       res.json({role:'member'});
