@@ -1,7 +1,6 @@
 //main login/home page
 
 import * as React from 'react';
-import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -38,7 +37,6 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState(null);
   const onLoginSuccess = () => {
     navigate('/memberDashboard');
   };
