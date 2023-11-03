@@ -19,6 +19,7 @@ app.post('/setAdminRole', (req, res) => {
 
   const email = req.body.email;
   const customClaims = { admin: true };
+  console.log('Received email in server.js :', email); 
 
   if(isInitialAdmin(email)) {
     admin.auth().getUserByEmail(email).then((user) => {
