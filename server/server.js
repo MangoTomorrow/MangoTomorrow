@@ -22,7 +22,10 @@ app.post('/setAdminRole', (req, res) => {
   if(isInitialAdmin(email)) {
     admin.auth().getUserByEmail(email).then((user) => {
       if(user.emailVerified) {
-        return admin.auth().setCustomUserClaims(user.uid, customClaims);
+        return admin.auth().setCustomUserClaims(user.uid, customClaims).then(() => {
+         
+          res.json({ success: true });
+        })
       }
       throw new Error('user not verified');
     })
@@ -32,7 +35,7 @@ app.post('/setAdminRole', (req, res) => {
 function isInitialAdmin(email) {
   const initialAdminEmails = ['tjdgns1256@gmail.com', 'anthony.shen11@gmail.com'];
   return initialAdminEmails.includes(email);
-}
+};
 
 
 
