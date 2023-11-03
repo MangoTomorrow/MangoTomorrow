@@ -18,6 +18,7 @@ import handleLogin from './loginLogic';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -37,12 +38,18 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const onLoginSuccess = () => {
-    navigate('/memberDashboard');
+  const onLoginSuccess = (role) => {
+    if(role === 'admin') {
+      navigate('/adminDashboard');
+    } else {
+        navigate('/memberDashboard');
+    }
   };
   const onLoginFailure = (error) => {
     console.error('login fail', error);
   }
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
