@@ -55,7 +55,7 @@ export default function SignInSide() {
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     const password = data.get('password');
-
+    console.log('this should be the email:', email);
     handleLogin(email, password, onLoginSuccess, onLoginFailure); //handle login
     
   };
