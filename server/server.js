@@ -22,8 +22,10 @@ app.post('/setAdminRole', (req, res) => {
   console.log('Received email in server.js :', email); 
 
   if(isInitialAdmin(email)) {
+    console.log('Email is recognized as an initial admin:', email);
     admin.auth().getUserByEmail(email).then((user) => {
      
+      console.log('User retrieved from Firebase:', user.toJSON());
         return admin.auth().setCustomUserClaims(user.uid, customClaims).then(() => {
          
           res.json({ success: true });
