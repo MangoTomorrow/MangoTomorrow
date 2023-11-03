@@ -7,7 +7,7 @@ const port = process.env.PORT || 8080;
 const path = require('path');
 const admin = require('firebase-admin');
 const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.json');
-const { Error } = require('console');
+
 
 
 app.use(express.json());
@@ -28,7 +28,7 @@ app.post('/setAdminRole', (req, res) => {
           res.json({ success: true });
         })
       }
-      throw new Error('user not verified');
+      
     })
   }
 });
