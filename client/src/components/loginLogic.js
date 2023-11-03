@@ -31,6 +31,7 @@ const checkUserRole = (email) => {
     .then((response) => {
       if (response.ok) {
         return response.json().then((data) => {
+          console.log('data from checkUserRole:', data);
           if (data.customClaims && data.customClaims.admin) {
             return 'admin';
           } else {
