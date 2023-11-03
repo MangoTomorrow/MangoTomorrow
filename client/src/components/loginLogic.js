@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase-config';
 
 const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
+  console.log('this is email from loginLogic:', email);
    checkUserRole(email).then((role) => {
     if(role === 'admin') {
       signInWithEmailAndPassword(auth, email, password).then(()=> {
