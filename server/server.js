@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const path = require('path');
 const admin = require('firebase-admin');
-const serviceAccount = require('home/ec2-user/cppLiftingClub/cppLiftingClubKey.json');
+const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.json');
 const { Error } = require('console');
 
 
