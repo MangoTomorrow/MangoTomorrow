@@ -41,7 +41,7 @@ export default function SignInSide() {
   const onLoginSuccess = (role) => {
     if(role === 'admin') {
       navigate('/adminDashboard');
-    } else {
+    } else if (role === 'member') {
         navigate('/memberDashboard');
     }
   };
