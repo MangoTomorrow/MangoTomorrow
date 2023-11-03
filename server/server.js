@@ -23,12 +23,12 @@ app.post('/setAdminRole', (req, res) => {
 
   if(isInitialAdmin(email)) {
     admin.auth().getUserByEmail(email).then((user) => {
-      if(user.emailVerified) {
+     
         return admin.auth().setCustomUserClaims(user.uid, customClaims).then(() => {
          
           res.json({ success: true });
         })
-      }
+      
       
     })
   }

@@ -40,6 +40,7 @@ export default function SignInSide() {
   const navigate = useNavigate();
   const onLoginSuccess = (role) => {
     if(role === 'admin') {
+      console.log('role:', role);
       navigate('/adminDashboard');
     } else if (role === 'member') {
         navigate('/memberDashboard');
