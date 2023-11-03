@@ -30,21 +30,19 @@ const checkUserRole = (email) => {
   })
     .then((response) => {
       if (response.ok) {
-        return response.json().then((data) => {
-          console.log('data from checkUserRole:', data);
-          if (data.customClaims && data.customClaims.admin) {
-            return 'admin';
-          } else {
-            return 'member';
-          }
-        });
+        return response.json();
+      }
+    })
+    .then((data) => {
+      if (data.success === true) {
+        return 'admin'; 
       } else {
-        return 'unknown';
+        return 'member';
       }
     })
     .catch((error) => {
       console.error('Error checking user role:', error);
-      return 'unknown'; 
+      return 'unknown';
     });
 };
 
