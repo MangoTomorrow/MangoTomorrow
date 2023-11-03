@@ -80,7 +80,7 @@ jobs:
 
               cd /home/ec2-user/cppLiftingClub/MangoTomorrow/server && \
               git pull origin main && \
-              npm ci --only=production && \
+              npm ci && \
               pm2 restart server.js"
 
               
