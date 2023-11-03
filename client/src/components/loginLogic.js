@@ -30,14 +30,15 @@ const checkUserRole = (email) => {
   })
     .then((response) => {
       if (response.ok) {
-        return response.json(); 
-      }
-    })
-    .then((data) => {
-      if (data.role === 'admin') {
-        return 'admin';
+        return response.json().then((data) => {
+          if (data.customClaims && data.customClaims.admin) {
+            return 'admin';
+          } else {
+            return 'member';
+          }
+        });
       } else {
-        return 'member';
+        return 'unknown';
       }
     })
     .catch((error) => {
