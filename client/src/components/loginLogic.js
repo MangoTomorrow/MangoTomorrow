@@ -20,7 +20,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
 };
 
 const checkUserRole = (email) => {
-  console.log('this is email from checkUserRole');
+  console.log('this is email from checkUserRole', email);
   return fetch('/setAdminRole', {
     method: 'POST',
     headers: {
