@@ -7,6 +7,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
   console.log('this is email from loginLogic:', email);
    checkUserRole(email).then((role) => {
     console.log('this is email from loginLogic/ in checkUserRole:', email);
+    console.log('this is role feedback from loginLogic/ checkUserRole', role);
     if(role === 'admin') {
       signInWithEmailAndPassword(auth, email, password).then(()=> {
         onLoginSuccess('admin');

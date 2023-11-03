@@ -43,6 +43,7 @@ export default function SignInSide() {
       console.log('role:', role);
       navigate('/adminDashboard');
     } else if (role === 'member') {
+      console.log('role:', role);
         navigate('/memberDashboard');
     }
   };
