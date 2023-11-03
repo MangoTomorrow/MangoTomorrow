@@ -10,6 +10,7 @@ const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.
 const { Error } = require('console');
 
 
+app.use(express.json());
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -36,7 +37,6 @@ function isInitialAdmin(email) {
   const initialAdminEmails = ['tjdgns1256@gmail.com', 'anthony.shen11@gmail.com'];
   return initialAdminEmails.includes(email);
 };
-
 
 
 app.use(express.static(path.join(__dirname, '../client/build')));
