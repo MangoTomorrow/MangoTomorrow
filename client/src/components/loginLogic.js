@@ -20,7 +20,6 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
 };
 
 const checkUserRole = (email) => {
-  console.log('this is email from checkUserRole', email);
   return fetch('/setAdminRole', {
     method: 'POST',
     headers: {
@@ -28,13 +27,23 @@ const checkUserRole = (email) => {
     },
     body: JSON.stringify({ email }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json(); 
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    })
     .then((data) => {
-      if (data.isInitialAdmin) {
+      if (data.role === 'admin') {
         return 'admin';
       } else {
         return 'member';
       }
+    })
+    .catch((error) => {
+      console.error('Error checking user role:', error);
+      return 'unknown'; 
     });
 };
 
