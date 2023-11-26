@@ -4,46 +4,39 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase-config';
 
 const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
-  console.log('this is email from loginLogic:', email);
-   checkUserRole(email).then((role) => {
-    console.log('this is email from loginLogic/ in checkUserRole:', email);
-    console.log('this is role feedback from loginLogic/ checkUserRole', role);
-    if(role === 'admin') {
-      signInWithEmailAndPassword(auth, email, password).then(()=> {
-        onLoginSuccess('admin');
-      })
-    } else if (role === 'member') {
-      onLoginSuccess('member');
-    } else {
-      onLoginFailure('An error occurred while checking the user role');
-    }
-   })
+ 
+  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+
+    getUserRole(email).then((role) => {
+      onLoginSuccess(role);
+    }).catch((error) => {
+      onLoginFailure('Error checking user role: ', error.message);
+    });
+  })
+  .catch((error) => {
+    onLoginFailure('Authentication failed: ', error.message);
+  })
+  
 };
 
-const checkUserRole = (email) => {
-  return fetch('/setAdminRole', {
+const getUserRole = (email) => {
+  return fetch('/getUserRole', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email }),
   })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-    })
-    .then((data) => {
-      if (data.success === true) {
-        return 'admin'; 
-      } else {
-        return 'member';
-      }
-    })
-    .catch((error) => {
-      console.error('Error checking user role:', error);
-      return 'unknown';
-    });
+  .then((response) => response.json())
+  .then((data) => data.role )
+  .catch((error) => {
+    console.error('Error fetching user role: ', error);
+    throw error;
+  });
 };
+
+
+
+
 
 export default handleLogin;

@@ -7,6 +7,7 @@ const port = process.env.PORT || 8080;
 const path = require('path');
 const admin = require('firebase-admin');
 const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.json');
+const { UserRecord } = require('firebase-admin/lib/auth/user-record');
 
 
 
@@ -36,6 +37,22 @@ app.post('/setAdminRole', (req, res) => {
     })
   }
 });
+
+app.post('/getUserRole', (req, res) => {
+  const { email } = req.body;
+
+  admin.auth().getUserByEmail(email).then(UserRecord => {
+
+    const isAdmin = userRecord.customClaims && userRecord.customClaims.admin;
+    res.json({ role: isAdmin ? 'admin' : 'member' });
+  })
+  .catch(error => {
+    console.error('error fetching user data: ', error);
+    res.status(500).send('Internal server error');
+  });
+
+});
+
 
 function isInitialAdmin(email) {
   const initialAdminEmails = ['tjdgns1256@gmail.com', 'anthony.shen11@gmail.com'];
