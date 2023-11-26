@@ -108,7 +108,7 @@ export default function Album() {
   };
   
 
-  
+  // can remove don't need?
   const getAvailableTimeSlots = async (db, equipmentId) => { 
     const equipmentCollection = collection(db, 'equipment');
     const q = query(equipmentCollection, where('equipmentId', '==', equipmentId));
@@ -120,8 +120,7 @@ export default function Album() {
         querySnapshot.forEach((doc) => {
           const availableTimeSlots = doc.data().timeSlot;
           const name = doc.data().name;
-          console.log('Time slots: ' + availableTimeSlots);
-          console.log('Name of Equipment: ' + name);
+          
         });
       } else {
         console.log('No documents found with the specified equipmentId');

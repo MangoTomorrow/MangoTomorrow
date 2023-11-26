@@ -125,10 +125,10 @@ export default function Dashboard() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              Admin Dashboard
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -149,8 +149,16 @@ export default function Dashboard() {
             </IconButton>
           </Toolbar>
           <Divider />
-
-          <Button onClick={handleSignOutClick}>Sign Out</Button>
+          
+          {open && (
+            <>
+            <Button >Member Status </Button>
+            <Button > Equipment Status </Button>
+            <Button onClick={handleSignOutClick}>Sign Out</Button>
+            </>
+          )}
+          
+         
         </Drawer>
         <Box
           component="main"
