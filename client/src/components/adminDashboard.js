@@ -8,6 +8,7 @@ import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -19,6 +20,7 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { handleSignOut }  from './signOut';
 
 
 function Copyright(props) {
@@ -89,6 +91,11 @@ export default function Dashboard() {
     setOpen(!open);
   };
 
+  const handleSignOutClick = async () => {
+    await handleSignOut();
+    window.location.href = '/'; // Redirect to the homepage
+  }
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -136,11 +143,14 @@ export default function Dashboard() {
               px: [1],
             }}
           >
+            
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
           <Divider />
+
+          <Button onClick={handleSignOutClick}>Sign Out</Button>
         </Drawer>
         <Box
           component="main"

@@ -10,6 +10,7 @@ const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.
 
 
 
+
 app.use(express.json());
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

@@ -6,6 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import Card from '@mui/material/Card';
+import { Alert } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -19,6 +20,12 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { handleSignOut }  from './signOut';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import cards from './cardsData';
+import CardModal from './cardModal';
+import { useState } from 'react';
+import { db } from '../config/firebase-config';
+import { getDocs, query, where, collection } from 'firebase/firestore';
+
 
 
 function Copyright() {
@@ -34,7 +41,7 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -49,6 +56,80 @@ export default function Album() {
   const handleSubscription = async() => {
     window.location.href = '/getSubscription';
   }
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [reservedTimeFrames, setReservedTimeFrames] = useState([]);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  
+
+ 
+
+  const showReservationSuccessAlert = () => {
+    setShowSuccessAlert(true);
+    setTimeout(() => setShowSuccessAlert(false), 3000);
+  };
+
+  const handleViewClick = async (card) => {
+    setSelectedCard(card);
+    setIsModalOpen(true);
+    getAvailableTimeSlots(db, card.id);
+    await fetchReservedTimeFrames(card.id);
+
+  };
+
+  const handleModalClose= () => {
+    setIsModalOpen(false);
+    setSelectedCard(null);
+  };
+
+  const fetchReservedTimeFrames = async (equipmentId) => {
+    const reservationRef = collection(db, 'reservations');
+    const q = query(reservationRef, where('equipmentId', '==', equipmentId));
+    
+    try {
+      const querySnapshot = await getDocs(q);
+      if(!querySnapshot.empty) {
+        const reservedSlots = querySnapshot.docs.map(doc => doc.data().reservationTime);
+        setReservedTimeFrames(reservedSlots);
+      } else {
+        setReservedTimeFrames([]);
+      }
+    } catch (error) {
+      console.error("Error fetching reservations: ", error);
+      setReservedTimeFrames([]);
+    }
+
+
+  };
+
+  const handleReserveClick = (selectedTimeFrame) => {
+    setReservedTimeFrames([...reservedTimeFrames, selectedTimeFrame]);
+  };
+  
+
+  
+  const getAvailableTimeSlots = async (db, equipmentId) => { 
+    const equipmentCollection = collection(db, 'equipment');
+    const q = query(equipmentCollection, where('equipmentId', '==', equipmentId));
+  
+    try {
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((doc) => {
+          const availableTimeSlots = doc.data().timeSlot;
+          const name = doc.data().name;
+          console.log('Time slots: ' + availableTimeSlots);
+          console.log('Name of Equipment: ' + name);
+        });
+      } else {
+        console.log('No documents found with the specified equipmentId');
+      }
+    } catch (error) {
+      console.error('Error fetching documents:', error.message);
+    }
+  };
 
 
 
@@ -80,7 +161,7 @@ export default function Album() {
               color="text.primary"
               gutterBottom
             >
-              Main Menu
+              Equipment Menu
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
               Can insert something here in the future.
@@ -100,7 +181,7 @@ export default function Album() {
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+              <Grid item key={card.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                 >
@@ -110,20 +191,20 @@ export default function Album() {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image="https://source.unsplash.com/random?wallpapers"
+                    image="https://via.placeholder.com/400"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      {card.heading}
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the
-                      content.
+                      {card.description}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
+                    <Button size="small" onClick={() => handleViewClick(card)}>
+                      View
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -147,6 +228,28 @@ export default function Album() {
         <Copyright />
       </Box>
       {/* End footer */}
+
+      {showSuccessAlert && ( 
+        <Box position="fixed" top={'50%'} left={'45%'} >
+        <Alert severity="success">Reservation successful </Alert>
+        </Box>
+      )}
+
+      
+
+      {selectedCard && (
+        <CardModal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        card={selectedCard}
+        onReserveClick={handleReserveClick}
+        reservedTimeFrames={reservedTimeFrames}
+        onReservationSuccess={showReservationSuccessAlert}
+       
+      />
+      )}
+
+
     </ThemeProvider>
   );
 }
