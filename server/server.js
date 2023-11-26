@@ -7,7 +7,7 @@ const port = process.env.PORT || 8080;
 const path = require('path');
 const admin = require('firebase-admin');
 const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.json');
-const { UserRecord } = require('firebase-admin/lib/auth/user-record');
+
 
 
 
@@ -18,39 +18,33 @@ admin.initializeApp({
 });
 
 app.post('/setAdminRole', (req, res) => {
-
   const email = req.body.email;
   const customClaims = { admin: true };
-  console.log('Received email in server.js :', email); 
 
-  if(isInitialAdmin(email)) {
-    console.log('Email is recognized as an initial admin:', email);
-    admin.auth().getUserByEmail(email).then((user) => {
-     
-      console.log('User retrieved from Firebase:', user.toJSON());
-        return admin.auth().setCustomUserClaims(user.uid, customClaims).then(() => {
-         
-          res.json({ success: true });
-        })
-      
-      
-    })
+  if (isInitialAdmin(email)) {
+    admin.auth().getUserByEmail(email).then((userRecord) => {
+      return admin.auth().setCustomUserClaims(userRecord.uid, customClaims).then(() => {
+        res.json({ success: true });
+      });
+    }).catch((error) => {
+      console.error('Error in setting admin role:', error);
+      res.status(500).send('Error in setting admin role');
+    });
+  } else {
+    res.status(400).send('Email is not recognized as an initial admin');
   }
 });
 
 app.post('/getUserRole', (req, res) => {
   const { email } = req.body;
 
-  admin.auth().getUserByEmail(email).then(UserRecord => {
-
+  admin.auth().getUserByEmail(email).then((userRecord) => {
     const isAdmin = userRecord.customClaims && userRecord.customClaims.admin;
     res.json({ role: isAdmin ? 'admin' : 'member' });
-  })
-  .catch(error => {
-    console.error('error fetching user data: ', error);
+  }).catch((error) => {
+    console.error('Error fetching user data:', error);
     res.status(500).send('Internal server error');
   });
-
 });
 
 
