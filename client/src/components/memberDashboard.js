@@ -73,7 +73,7 @@ export default function Album() {
   const handleViewClick = async (card) => {
     setSelectedCard(card);
     setIsModalOpen(true);
-    getAvailableTimeSlots(db, card.id);
+    //getAvailableTimeSlots(db, card.id);
     await fetchReservedTimeFrames(card.id);
 
   };
@@ -109,7 +109,7 @@ export default function Album() {
   
 
   // can remove don't need?
-  const getAvailableTimeSlots = async (db, equipmentId) => { 
+  /*const getAvailableTimeSlots = async (db, equipmentId) => { 
     const equipmentCollection = collection(db, 'equipment');
     const q = query(equipmentCollection, where('equipmentId', '==', equipmentId));
   
@@ -129,7 +129,7 @@ export default function Album() {
       console.error('Error fetching documents:', error.message);
     }
   };
-
+*/
 
 
   return (
