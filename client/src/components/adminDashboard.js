@@ -22,6 +22,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { handleSignOut }  from './signOut';
 import EquipmentTable from './equipmentTable';
+import { useNavigate } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -92,6 +93,12 @@ export default function Dashboard() {
     setOpen(!open);
   };
 
+  const navigate = useNavigate();
+
+  const moveToMemberClick = () => {
+    navigate('/memberDashboard');
+  };
+
   const [showEquipmentTable, setShowEquipmentTable] = React.useState(false);
 
   const handleSignOutClick = async () => {
@@ -157,6 +164,7 @@ export default function Dashboard() {
             <>
             <Button >Member Status </Button>
             <Button onClick={() => setShowEquipmentTable(!showEquipmentTable)}> Equipment Status </Button>
+            <Button onClick={moveToMemberClick} > Go To Member's Page </Button>
             <Button onClick={handleSignOutClick}>Sign Out</Button>
             </>
           )}
