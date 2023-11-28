@@ -57,7 +57,7 @@ export default function SignUpForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { email, password } = formData;
+    const { email, password, firstName, lastName } = formData;
     
     //if incorrect email format, console log. 
     if (!isValidEmail(email)) {
@@ -68,7 +68,11 @@ export default function SignUpForm() {
       //call the Firebase authentication function for user registration
       await signUp(email, password);
 
-      
+      localStorage.setItem('pendingUserData', JSON.stringify({
+        firstName,
+        lastName,
+        email,
+      }))
 
       console.log('User registered successfully');
 

@@ -5,6 +5,7 @@ import SignIn from './components/login';
 import SignUpForm from './components/signUpForm';
 import Album from './components/memberDashboard';
 import Dashboard from './components/adminDashboard';
+import EmailVerification from './components/emailVerification';
 
 
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/memberDashboard" element={<Album />} />
           <Route path="/getSubscription" element={<getSubscription />} />
           <Route path="/adminDashboard" element={<Dashboard />} />
+          <Route path="/__/auth/action" element={<EmailVerification /> } />
         </Routes>
       </Router>
     </div>

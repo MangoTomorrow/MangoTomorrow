@@ -7,6 +7,14 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
  
   signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
 
+    const user = userCredential.user;
+
+    if(!user.emailVerified) {
+      onLoginFailure('Verify email');
+      return;
+    }
+    
+
     getUserRole(email).then((role) => {
       onLoginSuccess(role);
     }).catch((error) => {

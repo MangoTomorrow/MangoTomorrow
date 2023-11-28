@@ -3,6 +3,7 @@
 
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../config/firebase-config';
+import { db } from '../config/firebase-config';
 
 
 
@@ -10,10 +11,11 @@ const signUp = async (email, password) => {
     try {
         // Create a new user
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-        //in testing phase. if you enter your email address, it will send a verification email.
         const user = userCredential.user;
         await sendEmailVerification(user);
+        
+       
+
 
       
     } catch (error) {
@@ -29,12 +31,18 @@ export default signUp;
 
 
 //we can use this to check if user has verified their email address, and if not they will not be able to login. Need to link with login.js to control this behavior.
-const handleEmailVerification = async (actionCode) => {
+const handleEmailVerification = async (actionCode, userData) => {
     try {
         // Apply the email verification code
         await auth.applyActionCode(actionCode);
 
         console.log('Email verification successful. User is now added.'); 
+
+        await db.collection("users").doc(userData.uid).set({
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+        });
 
     } catch (error) {
         console.error('Error verifying email:', error.message);
