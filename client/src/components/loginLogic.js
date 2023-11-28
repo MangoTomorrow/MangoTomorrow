@@ -2,9 +2,10 @@
 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config/firebase-config';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
-  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+  signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
     const user = userCredential.user;
 
     console.log('this is the auth object: ', auth);
@@ -14,33 +15,22 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
       return;
     }
 
-    db.collection("users").doc(user.uid).get()
-      .then((doc) => {
-        if (!doc.exists) {
-
-          const userData = JSON.parse(localStorage.getItem('pendingUserData'));
-          if (userData) {
-            db.collection("users").doc(user.uid).set(userData)
-              .then(() => {
-                localStorage.removeItem('pendingUserData');
-                getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure);
-              })
-              .catch(error => {
-                onLoginFailure('Error adding user data to Firestore: ', error.message);
-              });
-          } else {
-   
-            getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure);
-          }
-        } else {
-
-          getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure);
+    const userRef = doc(db, "users", user.uid);
+    try{
+      const docSnap = await getDoc(userRef);
+      if(!docSnap.exists() || docSnap.data() === null) {
+        const userData = JSON.parse(localStorage.getItem('pendingUserData'));
+        if(userData) {
+          await setDoc(userRef, userData);
+          localStorage.removeItem('pendingUserData');
         }
-      })
-      .catch(error => {
-        
-        onLoginFailure('Error checking user data: ', error.message);
-      });
+      }
+
+      getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure);
+    } catch (error) {
+      onLoginFailure('error checking user data: ', error.message);
+    }
+    
   })
   .catch((error) => {
     console.error('Authentication failed: ', error);

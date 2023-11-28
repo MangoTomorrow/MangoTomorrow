@@ -2,8 +2,9 @@
 
 
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from '../config/firebase-config';
-import { db } from '../config/firebase-config';
+import { auth, db } from '../config/firebase-config';
+
+
 
 
 
