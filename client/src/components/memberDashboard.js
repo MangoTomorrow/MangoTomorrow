@@ -25,6 +25,7 @@ import CardModal from './cardModal';
 import { useState } from 'react';
 import { db } from '../config/firebase-config';
 import { getDocs, query, where, collection } from 'firebase/firestore';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -48,6 +49,9 @@ const defaultTheme = createTheme();
 
 export default function Album() {
  
+  const location = useLocation();
+  const userName = location.state?.userName || 'User';
+
   const handleSignOutClick = async () => {
     await handleSignOut();
     window.location.href = '/'; // Redirect to the homepage
@@ -163,7 +167,7 @@ export default function Album() {
               Equipment Menu
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Can insert something here in the future.
+              Welcome, {userName}
             </Typography>
             <Stack
               sx={{ pt: 4 }}

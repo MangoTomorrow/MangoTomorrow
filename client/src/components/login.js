@@ -40,15 +40,16 @@ export default function SignInSide() {
   const navigate = useNavigate();
 
   
-  const onLoginSuccess = (role) => {
+  const onLoginSuccess = (role, userName) => {
     if(role === 'admin') {
       console.log('role:', role);
       navigate('/adminDashboard');
     } else if (role === 'member') {
       console.log('role:', role);
-        navigate('/memberDashboard');
+        navigate('/memberDashboard', { state: { userName } });
     }
   };
+
   const onLoginFailure = (error) => {
     console.error('login fail', error);
   }
