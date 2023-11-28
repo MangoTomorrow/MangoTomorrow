@@ -23,7 +23,7 @@ const fetchUserName = async (userId) => {
   }
 };
 
-
+export { fetchUserName };
 
 
 

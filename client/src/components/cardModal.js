@@ -6,9 +6,10 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Splitbutton from './splitButton';
 import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../config/firebase-config';
+import { db, auth } from '../config/firebase-config';
 import { useState } from 'react'
 import { Alert } from '@mui/material';
+import { fetchUserName } from './loginLogic';
 
 
 const style = {
@@ -42,14 +43,23 @@ const handleReserveClick = async () => {
             return;
         }
         try{
-            await addDoc(collection(db, 'reservations'), {
-                equipmentId: card.id,
-                equipmentName: card.name,
-                reservationTime: selectedTimeFrame
-            });
-            onReserveClick(selectedTimeFrame);
-            onReservationSuccess();
-            onClose();
+            const user = auth.currentUser;
+            if(user) {
+                const userName = await fetchUserName(user.uid);
+                await addDoc(collection(db, 'reservations'), {
+                    equipmentId: card.id,
+                    equipmentName: card.name,
+                    reservationTime: selectedTimeFrame,
+                    userId: user.uid,
+                    userName: userName || "unknown user",
+                    userEmail: user.email
+                });
+                onReserveClick(selectedTimeFrame);
+                onReservationSuccess();
+                onClose();
+            } else {
+                console.error("user not logged in");
+            }
         
 
         } catch(error) {

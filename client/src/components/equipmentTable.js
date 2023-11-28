@@ -58,7 +58,10 @@ export default function EquipmentTable() {
                 <TableCell>{equipment.name}</TableCell>
                 <TableCell align="right">
                     {equipment.reservations.map((reservation, index) => (
-                        <div key={index}>{reservation.reservationTime}</div>
+                        <div key={index}>
+                            {reservation.reservationTime} -
+                            Reserved by: {reservation.userName} ({reservation.userEmail})
+                            </div>
                     ))}
                 </TableCell>
                 </TableRow>
