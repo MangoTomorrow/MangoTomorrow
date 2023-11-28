@@ -21,6 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { handleSignOut }  from './signOut';
+import EquipmentTable from './equipmentTable';
 
 
 function Copyright(props) {
@@ -28,7 +29,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        MangoTomorrow
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -90,6 +91,8 @@ export default function Dashboard() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const [showEquipmentTable, setShowEquipmentTable] = React.useState(false);
 
   const handleSignOutClick = async () => {
     await handleSignOut();
@@ -153,7 +156,7 @@ export default function Dashboard() {
           {open && (
             <>
             <Button >Member Status </Button>
-            <Button > Equipment Status </Button>
+            <Button onClick={() => setShowEquipmentTable(!showEquipmentTable)}> Equipment Status </Button>
             <Button onClick={handleSignOutClick}>Sign Out</Button>
             </>
           )}
@@ -173,8 +176,8 @@ export default function Dashboard() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          
+          <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
+            {showEquipmentTable && <EquipmentTable/>}
               
             <Copyright sx={{ pt: 4 }} />
           </Container>
