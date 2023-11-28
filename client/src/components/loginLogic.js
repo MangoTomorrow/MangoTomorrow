@@ -4,6 +4,30 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config/firebase-config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
+
+
+const fetchUserName = async (userId) => {
+  const userRef = doc(db, 'users', userId);
+  try {
+    const docSnap = await getDoc(userRef);
+    if(docSnap.exists()) {
+      const userData = docSnap.data();
+      return `${userData.firstName} ${userData.lastName}`;
+    } else {
+      console.log('user not found');
+      return null;
+    }
+  } catch (error) {
+    console.error('error fetching username', error);
+    return null;
+  }
+};
+
+
+
+
+
+//check if user verified email or not
 const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
   signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
     const user = userCredential.user;
@@ -38,14 +62,18 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
   });
 };
 
-const getUserRoleAndProceed = (email, onLoginSuccess, onLoginFailure) => {
-  getUserRole(email).then((role) => {
-    onLoginSuccess(role);
-  }).catch((error) => {
-    onLoginFailure('Error checking user role: ', error.message);
-  });
+
+const getUserRoleAndProceed = async (email, onLoginSuccess, onLoginFailure) => {
+  try {
+    const role = await getUserRole(email);
+    const userName = await fetchUserName(auth.currentUser.uid);
+    onLoginSuccess(role, userName);
+  } catch (error) {
+    onLoginFailure('error checking user role: ', error.message);
+  }
 };
 
+//get user role api
 const getUserRole = (email) => {
   return fetch('/getUserRole', {
     method: 'POST',
@@ -61,6 +89,8 @@ const getUserRole = (email) => {
     throw error;
   });
 };
+
+
 
 
 
