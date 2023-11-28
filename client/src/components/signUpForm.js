@@ -68,6 +68,8 @@ export default function SignUpForm() {
       //call the Firebase authentication function for user registration
       await signUp(email, password);
 
+
+      //temp store user data 
       localStorage.setItem('pendingUserData', JSON.stringify({
         firstName,
         lastName,
