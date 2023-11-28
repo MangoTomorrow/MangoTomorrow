@@ -7,6 +7,8 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
   signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
     const user = userCredential.user;
 
+    console.log('this is the auth object: ', auth);
+
     if (!user.emailVerified) {
       onLoginFailure('Please verify your email.');
       return;
