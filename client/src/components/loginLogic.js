@@ -38,6 +38,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
         }
       })
       .catch(error => {
+        console.error('Authentication failed: ', error);
         onLoginFailure('Error checking user data: ', error.message);
       });
   })
