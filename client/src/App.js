@@ -5,6 +5,7 @@ import SignIn from './components/login';
 import SignUpForm from './components/signUpForm';
 import Album from './components/memberDashboard';
 import Dashboard from './components/adminDashboard';
+import { AuthProvider } from './components/authContext';
 
 
 
@@ -13,16 +14,18 @@ import Dashboard from './components/adminDashboard';
 function App() {
   return (
     <div className="App">
+    <AuthProvider>
       <Router>
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/memberDashboard" element={<Album />} />
+          <Route path="/memberDashboard" element={<Album />} allowedRole={['member']} />
           <Route path="/getSubscription" element={<getSubscription />} />
-          <Route path="/adminDashboard" element={<Dashboard />} />
+          <Route path="/adminDashboard" element={<Dashboard />} allowedRole={['admin']}/>
           
         </Routes>
       </Router>
+    </AuthProvider>
     </div>
   );
 }

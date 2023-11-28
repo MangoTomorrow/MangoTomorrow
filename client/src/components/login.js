@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import handleLogin from './loginLogic';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from './authContext';
 
 
 function Copyright(props) {
@@ -38,7 +38,7 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const navigate = useNavigate();
-
+  const { setIsAuthenticated, setUserRole } = useAuth();
   
   const onLoginSuccess = (role, userName) => {
     if(role === 'admin') {
@@ -61,7 +61,7 @@ export default function SignInSide() {
     const email = data.get('email');
     const password = data.get('password');
     console.log('this should be the email:', email);
-    handleLogin(email, password, onLoginSuccess, onLoginFailure); //handle login
+    handleLogin(email, password, onLoginSuccess, onLoginFailure, setIsAuthenticated, setUserRole ); //handle login
     
   };
 

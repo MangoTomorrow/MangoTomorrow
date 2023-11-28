@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 
 
+
 const fetchUserName = async (userId) => {
   const userRef = doc(db, 'users', userId);
   try {
@@ -28,7 +29,10 @@ export { fetchUserName };
 
 
 //check if user verified email or not
-const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
+const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthenticated, setUserRole ) => {
+
+  
+
   signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
     const user = userCredential.user;
 
@@ -38,7 +42,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
       onLoginFailure('Please verify your email.');
       return;
     }
-
+    
     const userRef = doc(db, "users", user.uid);
     try{
       const docSnap = await getDoc(userRef);
@@ -49,8 +53,8 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
           localStorage.removeItem('pendingUserData');
         }
       }
-
-      getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure);
+      setIsAuthenticated(true);
+      getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
     } catch (error) {
       onLoginFailure('error checking user data: ', error.message);
     }
@@ -63,9 +67,10 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure) => {
 };
 
 
-const getUserRoleAndProceed = async (email, onLoginSuccess, onLoginFailure) => {
+const getUserRoleAndProceed = async (email, onLoginSuccess, onLoginFailure, setUserRole) => {
   try {
     const role = await getUserRole(email);
+    setUserRole(role);
     const userName = await fetchUserName(auth.currentUser.uid);
     onLoginSuccess(role, userName);
   } catch (error) {
