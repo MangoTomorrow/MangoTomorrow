@@ -14,9 +14,12 @@ const EmailVerification = () => {
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
         const actionCode = urlParams.get('oobCode');
+        console.log('action code is: ', actionCode);
+        console.log('auth object: ', auth);
 
         if(actionCode){
-            auth.applyActionCode(actionCode).then(() => {
+            auth.applyActionCode(actionCode)
+            .then(() => {
                 const userData = JSON.parse(localStorage.getItem('pendingUserData'));
                 if(userData){
                     db.collection("users").doc(userData.uid).set(userData).then(() => {
