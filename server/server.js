@@ -47,6 +47,19 @@ app.post('/getUserRole', (req, res) => {
   });
 });
 
+const setEmailAsAdmin = async (email) => {
+  try {
+    const user = await admin.auth().getUserByEmail(email);
+    await admin.auth().setCustomUserClaims(user.uid, { admin: true });
+    console.log('admin role set for ${email}');
+
+  } catch (error) {
+    console.error('error setting admin role: ', error);
+  }
+};
+
+setEmailAsAdmin('tjdgns1256@gmail.com');
+
 
 function isInitialAdmin(email) {
   const initialAdminEmails = ['tjdgns1256@gmail.com', 'anthony.shen11@gmail.com'];
