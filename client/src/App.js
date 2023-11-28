@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/memberDashboard" element={<Album />} allowedRole={['member']} />
+          <Route path="/memberDashboard" element={<Album />} allowedRole={['member', 'admin']} />
           <Route path="/getSubscription" element={<getSubscription />} />
           <Route path="/adminDashboard" element={<Dashboard />} allowedRole={['admin']}/>
           
