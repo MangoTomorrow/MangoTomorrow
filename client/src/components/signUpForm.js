@@ -76,7 +76,7 @@ export default function SignUpForm() {
         email,
       }))
 
-      console.log('User registered successfully');
+      console.log('User registered successfully with data: ', localStorage);
 
       //clear the form fields
       setFormData({
