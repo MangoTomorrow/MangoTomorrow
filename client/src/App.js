@@ -6,6 +6,7 @@ import SignUpForm from './components/signUpForm';
 import Album from './components/memberDashboard';
 import Dashboard from './components/adminDashboard';
 import { AuthProvider } from './components/authContext';
+import ProtectedRoute from './components/protectedRoute';
 
 
 
@@ -19,9 +20,18 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/memberDashboard" element={<Album />} allowedRole={['member', 'admin']} />
+          <Route path="/memberDashboard" element={
+            <ProtectedRoute allowedRoles={['member','admin']} >
+              <Album />
+            </ProtectedRoute>
+          } />
+          
           <Route path="/getSubscription" element={<getSubscription />} />
-          <Route path="/adminDashboard" element={<Dashboard />} allowedRole={['admin']}/>
+          <Route path="/adminDashboard" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
           
         </Routes>
       </Router>
