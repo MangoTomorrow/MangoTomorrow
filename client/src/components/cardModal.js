@@ -88,24 +88,25 @@ const handleReserveClick = async () => {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     {card.heading}
                 </Typography>
-                <Typography id="modal-modal-description" sx={{mt: 2}}>
+                <Typography id="modal-modal-description" sx={{mt: 2, mb: 5}}>
                     {card.description}
+                    <br/>
                 </Typography>
-                <Button onClick={handleReserveClick} variant="contained" sx={{ mt: 2 }}>
-                    Reserve
-                </Button>
+                
                 
                 <Box
                 
                 sx={{
-                    position: 'absolute',
-                    top: '55%',
+                    position: 'flex',
+                    top: '0%',
                     right: 0,
                     
-                    p: 2,
+                    p: 0,
                 }}
                 >
-
+                <Button onClick={handleReserveClick} variant="contained" sx={{ mr: 4, height: 35 }}>
+                    Reserve
+                </Button>
                 {showErrorAlert && ( 
                     <Box position="fixed" top={'10%'} left={'45%'} >
                     <Alert severity="error">Select a Time Frame! </Alert>

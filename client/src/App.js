@@ -7,6 +7,8 @@ import Album from './components/memberDashboard';
 import Dashboard from './components/adminDashboard';
 import { AuthProvider } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
+import EmailVerificationPage from './components/emailVerificationPage';
+
 
 
 
@@ -20,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUpForm />} />
+          <Route path="/verify" element={<EmailVerificationPage/>} />
           <Route path="/memberDashboard" element={
             <ProtectedRoute allowedRoles={['member','admin']} >
               <Album />

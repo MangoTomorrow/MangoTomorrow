@@ -87,7 +87,7 @@ export default function SignUpForm() {
         allowExtraEmails: false,
       });
       //direct user back to login page
-      navigate('/');
+      navigate('/verify', { state: { email: email } });
     } catch (error) {
       console.error('Error signing up:', error.message);
     }

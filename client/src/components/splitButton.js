@@ -53,7 +53,9 @@ export default function SplitButton({ onSelectTimeFrame, reservedTimeFrames }) {
   return (
     <React.Fragment>
       <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button" >
-        <Button onClick={handleClick}>
+        <Button onClick={handleClick} sx={{ width: 200}}
+        
+        >
         {selectedIndex !== -1 ? options[selectedIndex] : "Select a time frame"} 
         </Button>
 
