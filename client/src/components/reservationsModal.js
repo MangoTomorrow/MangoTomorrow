@@ -107,7 +107,7 @@ const ReservationModal = ({ open, onClose, userId }) => {
             <Button
                 variant="contained"
                 color="secondary"
-               // onClick={() => handleCancelReservation(selectedReservation)}
+                onClick={() => handleCancelReservation(selectedReservation)}
                 disabled={!selectedReservation}
             >
                 Cancel Reservation
