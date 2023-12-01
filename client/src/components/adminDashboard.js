@@ -1,8 +1,3 @@
-//base admin page to do the follwing actions:
-//Look at reports for equipment needing repairs
-//Give subscription status to members
-//Time out subscription of users who violate policy
-//
 import * as React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,6 +18,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { handleSignOut }  from './signOut';
 import EquipmentTable from './equipmentTable';
 import { useNavigate } from 'react-router-dom';
+import MemberTable from './memberTable';
 
 
 function Copyright(props) {
@@ -95,8 +91,11 @@ export default function Dashboard() {
 
   const navigate = useNavigate();
 
-  const moveToMemberClick = () => {
-    navigate('/memberDashboard');
+  const [showMemberTable, setShowMemberTable] = React.useState(false);
+
+  const moveToShowMemberTable = () => {
+    setShowEquipmentTable(false); // Close EquipmentTable if open
+    setShowMemberTable(true);
   };
 
   const [showEquipmentTable, setShowEquipmentTable] = React.useState(false);
@@ -162,9 +161,9 @@ export default function Dashboard() {
           
           {open && (
             <>
-            <Button >Member Status </Button>
+            <Button onClick={() => setShowMemberTable(!showMemberTable)}>Member Status </Button>
             <Button onClick={() => setShowEquipmentTable(!showEquipmentTable)}> Equipment Status </Button>
-            <Button onClick={moveToMemberClick} > Go To Member's Page </Button>
+            <Button onClick={moveToShowMemberTable} > Go To Member's Page </Button>
             <Button onClick={handleSignOutClick}>Sign Out</Button>
             </>
           )}
@@ -185,7 +184,8 @@ export default function Dashboard() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
-            {showEquipmentTable && <EquipmentTable/>}
+            {showEquipmentTable && <EquipmentTable />}
+            {showMemberTable && <MemberTable />}
               
             <Copyright sx={{ pt: 4 }} />
           </Container>

@@ -15,14 +15,14 @@ const cards = [
         id: 2,
         name: 'Stainless Steel Ohio Power Bar 2',
         heading: 'Stainless Steel Ohio Power Bar',
-        description: 'Stainless Steel Ohio Power bar ',
+        description: 'Stainless Steel Ohio Power bar for Powerlifting compounds (squat, bench, deadlift)',
         imageUrl: 'https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/catalog/Weightlifting%20Bars%20and%20Plates/Barbells/Mens%2020KG%20Barbells/RA0586-RWRW/RA0586-RWRW-TH_cmgefd.png',
     },
     {
         id: 3,
         name: 'Black Zinc Ohio Power Bar 3',
         heading: 'Black Zinc Ohio Power Bar',
-        description: 'Description of equipment',
+        description: 'Black Zinc Power Bar for Powerlifting compounds (Squat, Bench, Deadlift)',
         imageUrl: 'https://assets.roguefitness.com/f_auto,q_auto,c_fill,g_center,w_500,h_500,b_rgb:f8f8f8/catalog/Weightlifting%20Bars%20and%20Plates/Barbells/Mens%2020KG%20Barbells/RA0586-BLBR/RA0586-BLBR-TH_fvun5q.png',
     },
     {
@@ -43,7 +43,7 @@ const cards = [
         id: 6,
         name: 'Mens Pyross Bar 2',
         heading: 'Mens Pyross Bar',
-        description: 'Description of equipment',
+        description: 'Mens Pyross Bar for Olympic Weightlifting',
         imageUrl: 'https://assets.roguefitness.com/f_auto,q_auto,c_fill,g_center,w_308,h_308,b_rgb:f8f8f8/catalog/Weightlifting%20Bars%20and%20Plates/Barbells/Mens%2020KG%20Barbells/28MMSTAINLESSOLY/28MMSTAINLESSOLY-TH_gogikk.png',
     },
     {
