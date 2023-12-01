@@ -39,6 +39,7 @@ const ReservationModal = ({ open, onClose, userId }) => {
             setAlertMessage('Reservation Cancelled');
             setAlertType('success');
             setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 3000);
             
     
         } catch (error) {
@@ -46,6 +47,7 @@ const ReservationModal = ({ open, onClose, userId }) => {
             setAlertMessage('Failed to cancel reservation.');
             setAlertType('error');
             setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 3000);
         }
     };
 
