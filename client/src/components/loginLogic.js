@@ -53,7 +53,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
           localStorage.removeItem('pendingUserData');
         }
       }
-      const currentTime = new Date().getTime();
+      
       
       const role = await getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
       if(role) {
