@@ -26,6 +26,8 @@ import { useState } from 'react';
 import { db } from '../config/firebase-config';
 import { getDocs, query, where, collection } from 'firebase/firestore';
 import { useLocation } from 'react-router-dom';
+import ReservationModal from './reservationsModal';
+import { auth } from '../config/firebase-config';
 
 
 
@@ -57,17 +59,24 @@ export default function Album() {
     window.location.href = '/'; // Redirect to the homepage
   }
 
-  const handleSubscription = async() => {
-    window.location.href = '/getSubscription';
-  }
+  
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [reservedTimeFrames, setReservedTimeFrames] = useState([]);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  
+  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+  const [userId, setUserId] = useState(null);  
 
- 
+ React.useEffect(() => {
+  if(auth.currentUser) {
+    setUserId(auth.currentUser.uid);
+  }
+ }, []);
+
+  const handleViewReservationClick = () => {
+    setIsReservationModalOpen(true);
+  }
 
   const showReservationSuccessAlert = () => {
     setShowSuccessAlert(true);
@@ -175,10 +184,20 @@ export default function Album() {
               spacing={2}
               justifyContent="center"
             >
-              <Button onClick={handleSubscription} variant="contained">Subscribe</Button>
+              <Button onClick={handleViewReservationClick} variant="contained">View My Reservations</Button>
               <Button onClick={handleSignOutClick} variant="outlined">Sign Out</Button>
             </Stack>
           </Container>
+
+          {userId && (
+            <ReservationModal
+              open={isReservationModalOpen(false)}
+              userId={userId}
+            />
+          )}
+
+
+
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
