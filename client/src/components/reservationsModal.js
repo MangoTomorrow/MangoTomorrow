@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "../config/firebase-config";
-import { getDocs, query, collection, where } from "firebase/firestore";
-import { Modal, Box, Typography } from '@mui/material';
+import { doc, getDocs, query, collection, where, deleteDoc } from "firebase/firestore";
+import { Modal, Box, Typography, Button, Alert } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 
 
@@ -23,6 +23,37 @@ const style = {
 
 const ReservationModal = ({ open, onClose, userId }) => {
     const [reservations, setReservations] = useState([]);
+    const [selectedReservation, setSelectedReservation] = useState(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertType, setAlertType] = useState('success');
+    const [alertMessage, setAlertMessage] = useState('');
+
+
+    const handleCancelReservation = async (reservationId) => {
+        if(!reservationId) return;
+    
+        try{
+            await deleteDoc(doc(db, 'reservations', reservationId));
+            setReservations(reservations.filter(res => res.id !== reservationId));
+            setSelectedReservation(null);
+            setAlertMessage('Reservation Cancelled');
+            setAlertType('success');
+            setShowAlert(true);
+            
+    
+        } catch (error) {
+            console.error("Error canceling reservation: ", error);
+            setAlertMessage('Failed to cancel reservation.');
+            setAlertType('error');
+            setShowAlert(true);
+        }
+    };
+
+    const handleSelectionChange = (newSelection) => {
+        setSelectedReservation(newSelection.rowIds[0]);
+    };
+
+
 
     useEffect(() => {
         const fetchReservations = async () => {
@@ -57,14 +88,29 @@ const ReservationModal = ({ open, onClose, userId }) => {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     My Reservations
                 </Typography>
+                {showAlert && (
+                    <Alert severity={alertType}>{alertMessage}</Alert>
+                )}
                 <div style={{ height: 400, width: '100%' }}>
                     <DataGrid
                         rows={reservations}
                         columns={columns}
                         pageSize={5}
+                        checkboxSelection
+                        onRowSelectionModelChange={handleSelectionChange}
                     />
                 </div>
             </Box>
+
+            <Button
+                variant="contained"
+                color="secondary"
+               // onClick={() => handleCancelReservation(selectedReservation)}
+                disabled={!selectedReservation}
+            >
+                Cancel Reservation
+            </Button>
+
         </Modal>
     );
 
