@@ -191,7 +191,8 @@ export default function Album() {
 
           {userId && (
             <ReservationModal
-              open={isReservationModalOpen(false)}
+              open={isReservationModalOpen}
+              onClose={() => setIsReservationModalOpen(false)}
               userId={userId}
             />
           )}
