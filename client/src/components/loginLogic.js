@@ -53,8 +53,15 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
           localStorage.removeItem('pendingUserData');
         }
       }
-      setIsAuthenticated(true);
-      getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
+      const currentTime = new Date().getTime();
+      
+      const role = await getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
+      if(role) {
+        const currentTime = new Date().getTime();
+        localStorage.setItem('sessionStart', currentTime);
+        localStorage.setItem('userRole', role);
+        setIsAuthenticated(true);
+      }
     } catch (error) {
       onLoginFailure('error checking user data: ', error.message);
     }
@@ -73,8 +80,10 @@ const getUserRoleAndProceed = async (email, onLoginSuccess, onLoginFailure, setU
     setUserRole(role);
     const userName = await fetchUserName(auth.currentUser.uid);
     onLoginSuccess(role, userName);
+    return role;
   } catch (error) {
     onLoginFailure('error checking user role: ', error.message);
+    return null;
   }
 };
 

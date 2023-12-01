@@ -73,7 +73,7 @@ const ReservationModal = ({ open, onClose, userId }) => {
         };
 
         fetchReservations();
-    }, [userId]);
+    }, [userId, reservationChange]);
 
     const columns = [
         { field: 'equipmentId', headerName: 'Equipment ID', width: 150},

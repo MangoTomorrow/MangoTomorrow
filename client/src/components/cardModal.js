@@ -56,6 +56,7 @@ const handleReserveClick = async () => {
                 });
                 onReserveClick(selectedTimeFrame);
                 onReservationSuccess();
+                setReservationChange(prev => !prev);
                 onClose();
             } else {
                 console.error("user not logged in");
