@@ -21,7 +21,7 @@ const style = {
 
 
 
-const ReservationModal = ({ open, onClose, userId }) => {
+const ReservationModal = ({ open, onClose, userId, reservationChange }) => {
     const [reservations, setReservations] = useState([]);
     const [selectedReservation, setSelectedReservation] = useState(null);
     const [showAlert, setShowAlert] = useState(false);

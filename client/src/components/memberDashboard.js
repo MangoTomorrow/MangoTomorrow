@@ -67,7 +67,7 @@ export default function Album() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
   const [userId, setUserId] = useState(null);  
-  const [resrvationChange, setReservationChange] = useState(false);
+  const [reservationChange, setReservationChange] = useState(false);
 
  React.useEffect(() => {
   if(auth.currentUser) {
@@ -195,6 +195,7 @@ export default function Album() {
               open={isReservationModalOpen}
               onClose={() => setIsReservationModalOpen(false)}
               userId={userId}
+              reservationChange={reservationChange}
             />
           )}
 

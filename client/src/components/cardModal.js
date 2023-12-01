@@ -24,7 +24,7 @@ const style = {
     p: 4,
 };
 
-const CardModal = ({ open, onClose, card, onReserveClick, reservedTimeFrames, onReservationSuccess }) => {
+const CardModal = ({ open, onClose, card, onReserveClick, reservedTimeFrames, onReservationSuccess, setReservationChange }) => {
 
     const [selectedTimeFrame, setSelectedTimeFrame] = useState(null);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
