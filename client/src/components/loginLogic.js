@@ -57,9 +57,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
       
       const role = await getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
       if(role) {
-        const currentTime = new Date().getTime();
-        localStorage.setItem('sessionStart', currentTime);
-        localStorage.setItem('userRole', role);
+        
         setIsAuthenticated(true);
       }
     } catch (error) {
