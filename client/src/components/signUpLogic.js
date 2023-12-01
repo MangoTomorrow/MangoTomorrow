@@ -43,6 +43,7 @@ const handleEmailVerification = async (actionCode, userData) => {
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
+            role: userData.role,
         });
 
     } catch (error) {

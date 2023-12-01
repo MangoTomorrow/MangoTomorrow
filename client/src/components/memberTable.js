@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useState, useEffect } from 'react';
 import { db } from '../config/firebase-config';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 export default function MemberTable() {
   const [members, setMembers] = useState([]);
@@ -16,7 +16,8 @@ export default function MemberTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const membersSnapshot = await getDocs(collection(db, 'users'));
+        const q = query(collection(db, 'users'), where('role', '==', 'member'));
+        const membersSnapshot = await getDocs(q);
         const membersData = membersSnapshot.docs.map((doc) => ({
           memberId: doc.id,
           ...doc.data(),
