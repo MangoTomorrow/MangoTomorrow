@@ -24,16 +24,16 @@ function App() {
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/verify" element={<EmailVerificationPage/>} />
           <Route path="/memberDashboard" element={
-            //<ProtectedRoute allowedRoles={['member','admin']} >
+            <ProtectedRoute allowedRoles={['member','admin']} >
               <Album />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           } />
           
           
           <Route path="/adminDashboard" element={
-            //<ProtectedRoute allowedRoles={['admin']}>
+            <ProtectedRoute allowedRoles={['admin']}>
               <Dashboard />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           } />
           
         </Routes>
