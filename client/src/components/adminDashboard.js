@@ -91,6 +91,10 @@ export default function Dashboard() {
 
   const navigate = useNavigate();
 
+  const moveToMemberClick = () => {
+    navigate('/memberDashboard');
+  };
+
   const [showMemberTable, setShowMemberTable] = React.useState(false);
 
   const moveToShowMemberTable = () => {
@@ -168,7 +172,7 @@ export default function Dashboard() {
             <>
             <Button onClick={() => moveToShowMemberTable(!showMemberTable)}>Member Status </Button>
             <Button onClick={() => moveToShowEquipmentTable(!showEquipmentTable)}> Equipment Status </Button>
-            <Button onClick={navigate} > Go To Member's Page </Button>
+            <Button onClick={moveToMemberClick} > Go To Member's Page </Button>
             <Button onClick={handleSignOutClick}>Sign Out</Button>
             </>
           )}
