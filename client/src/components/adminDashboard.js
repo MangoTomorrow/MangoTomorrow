@@ -98,6 +98,11 @@ export default function Dashboard() {
     setShowMemberTable(true);
   };
 
+  const moveToShowEquipmentTable = () => {
+    setShowMemberTable(false); //Closes MemberTable if open
+    setShowEquipmentTable(true)
+  }
+
   const [showEquipmentTable, setShowEquipmentTable] = React.useState(false);
 
   const handleSignOutClick = async () => {
@@ -161,9 +166,9 @@ export default function Dashboard() {
           
           {open && (
             <>
-            <Button onClick={() => setShowMemberTable(!showMemberTable)}>Member Status </Button>
-            <Button onClick={() => setShowEquipmentTable(!showEquipmentTable)}> Equipment Status </Button>
-            <Button onClick={moveToShowMemberTable} > Go To Member's Page </Button>
+            <Button onClick={() => moveToShowMemberTable(!showMemberTable)}>Member Status </Button>
+            <Button onClick={() => moveToShowEquipmentTable(!showEquipmentTable)}> Equipment Status </Button>
+            <Button onClick={navigate} > Go To Member's Page </Button>
             <Button onClick={handleSignOutClick}>Sign Out</Button>
             </>
           )}
