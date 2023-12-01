@@ -52,7 +52,11 @@ const ReservationModal = ({ open, onClose, userId }) => {
     };
 
     const handleSelectionChange = (newSelection) => {
-        setSelectedReservation(newSelection.rowIds[0]);
+        if(newSelection.length > 0) {
+            setSelectedReservation(newSelection[0]);
+        } else {
+            setSelectedReservation(null);
+        }
     };
 
 
