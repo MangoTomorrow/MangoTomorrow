@@ -144,9 +144,11 @@ export default function SignUpForm() {
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 />
               </Grid>
+              <Box sx={{ ml: 8 }}>
               {showAlert && (
             <Alert severity='error'> Please enter a valid email address. </Alert>
               )}
+              </Box>
               <Grid item xs={12}>
                 <TextField
                   required
