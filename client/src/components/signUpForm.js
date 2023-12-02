@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import signUp from './signUpLogic';
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import { Alert } from '@mui/material';
 
 
 function Copyright(props) {
@@ -54,6 +55,7 @@ export default function SignUpForm() {
   });
 
   const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,7 +63,8 @@ export default function SignUpForm() {
     
     //if incorrect email format, console log. 
     if (!isValidEmail(email)) {
-      console.error('Invalid email address');
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
       return;
     }
     try {
@@ -189,6 +192,9 @@ export default function SignUpForm() {
               </Grid>
             </Grid>
           </Box>
+          {showAlert && (
+            <Alert severity='error'> Please enter a valid email address. </Alert>
+          )}
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
