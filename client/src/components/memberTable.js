@@ -77,6 +77,8 @@ export default function MemberTable() {
         },
         body: JSON.stringify({userId}),
       });
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
       console.error('error enabling user account: ', error);
     }
@@ -94,6 +96,9 @@ export default function MemberTable() {
         },
         body: JSON.stringify({ userId }),
       });
+
+      const data = await response.json();
+      console.log(data); // Log the response from the server
     } catch (error) {
       console.error('Error disabling user account:', error);
     }
