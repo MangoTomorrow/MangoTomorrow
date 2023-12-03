@@ -77,7 +77,6 @@ export default function MemberTable() {
         },
         body: JSON.stringify({userId}),
       });
-      const data = await response.json();
     } catch (error) {
       console.error('error enabling user account: ', error);
     }
@@ -95,9 +94,6 @@ export default function MemberTable() {
         },
         body: JSON.stringify({ userId }),
       });
-
-      const data = await response.json();
-      console.log(data); // Log the response from the server
     } catch (error) {
       console.error('Error disabling user account:', error);
     }
@@ -127,11 +123,11 @@ export default function MemberTable() {
                 <TableCell>{member.lastName}</TableCell>
                 <TableCell>
                  {member.disabled ? (
-                  <Button onClick={() => handleEnableAccountClick(selectedMember.memberId)}>
+                  <Button onClick={() => handleEnableAccountClick(member.memberId)}>
                     Enable Account
                   </Button> 
                  ):(
-                  <Button onClick={() => handleDisableAccountClick(selectedMember.memberId)}>
+                  <Button onClick={() => handleDisableAccountClick(member.memberId)}>
                     Disable Account
                   </Button>
                  )}
