@@ -59,20 +59,17 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
       
       
       const role = await getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
-      const defaultDisableStatus = false;
-      const defaultDisableReason = null;
+      
 
-      const userData = {
-        ...docSnap.data(),
-        role,
-        disableStatus: docSnap.exists() && docSnap.data().disableStatus !== undefined ? docSnap.data().disableStatus : defaultDisableStatus,
-        disableReason: docSnap.exists() && docSnap.data().disableReason !== undefined ? docSnap.data().disableReason : defaultDisableReason
-      };
       
       if(role) {
         
         setIsAuthenticated(true);
-        await setDoc(userRef, { ...docSnap.data(), userData }, { merge: true});
+        await setDoc(userRef, { ...docSnap.data(), role,
+          disableReason: docSnap.exists() && docSnap.data().disabledReason !== undefined ? docSnap.data().disabledReason : null,
+          disabled: docSnap.exists() && docSnap.data().disabled !== undefined ? docSnap.data().disabled : false
+        
+        }, { merge: true});
         
       }
     } catch (error) {
