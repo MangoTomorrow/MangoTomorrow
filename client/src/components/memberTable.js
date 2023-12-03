@@ -50,8 +50,8 @@ export default function MemberTable() {
       // Update the user document in Firestore to disable the account
       const userDocRef = doc(db, 'users', selectedMember.memberId);
       await updateDoc(userDocRef, {
-        disabled: true,
-        disableReason: disableReason, // Optionally, store the reason for disabling
+        disabled: true, //user login will be invalid
+        disableReason: disableReason, //store the reason for disabling
       });
 
       console.log(`Successfully disabled a acccount for ${selectedMember.email}`);
@@ -99,7 +99,7 @@ export default function MemberTable() {
       {/* Disable Account Dialog */}
       {selectedMember && (
         <div>
-          <Typography variant="h6">Disable Account: {selectedMember.email}</Typography>
+          <Typography variant="h6" sx={{ mb: 2, mt: 3, color: 'primary.main'}}>Disable Account: {selectedMember.email}</Typography>
           <TextField
             label="Reason"
             multiline
@@ -107,6 +107,7 @@ export default function MemberTable() {
             fullWidth
             value={disableReason}
             onChange={handleDisableReasonChange}
+            sx={{ mb: 2 }}
           />
           <Button onClick={handleDisableConfirmClick}>Confirm Disable</Button>
         </div>
