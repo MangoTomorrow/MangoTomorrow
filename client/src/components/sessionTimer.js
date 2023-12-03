@@ -1,26 +1,43 @@
 
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, signOut } from "firebase/auth";
 
-import { useNavigate } from "react-router-dom";
-import { auth } from "../config/firebase-config";
-import { signOut } from "firebase/auth";
+const SESSION_TIMEOUT = 15 * 60 * 1000; //15 minutes
 
+export const useSessionTimeout = () => {
+  const navigate = useNavigate();
+  const auth = getAuth();
 
-
-const SESSION_TIMEOUT = 15* 60 * 1000;
-let sessionTimer;
-const navigate = useNavigate();
-
-export const startSessionTime = () => {
-    clearTimeout(sessionTimer);
-    sessionTimer = setTimeout(() => {
-        signOut(auth).then(() => {
-            //insert alert to let user know they are being logged out
-            navigate('/');
-        });
+  useEffect(() => {
+    let sessionTimer = setTimeout(() => {
+      signOut(auth).then(() => {
+        console.log("User signed out after 15 minutes of inactivity");
+        navigate('/');
+      });
     }, SESSION_TIMEOUT);
-};
 
+    const resetTimer = () => {
+      clearTimeout(sessionTimer);
+      sessionTimer = setTimeout(() => {
+        signOut(auth).then(() => {
+          console.log("User signed out after 15 minutes of inactivity");
+          navigate('/');
+        });
+      }, SESSION_TIMEOUT);
+    };
 
-export const resetSessionTimer = () => {
-    startSessionTime();
+   
+    window.addEventListener("click", resetTimer);
+    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener("keydown", resetTimer);
+
+ 
+    return () => {
+      clearTimeout(sessionTimer);
+      window.removeEventListener("click", resetTimer);
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("keydown", resetTimer);
+    };
+  }, [navigate, auth]);
 };

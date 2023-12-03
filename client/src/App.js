@@ -11,6 +11,7 @@ import EmailVerificationPage from './components/emailVerificationPage';
 import { startSessionTime, resetSessionTimer } from './components/sessionTimer';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './config/firebase-config';
+import { useSessionTimeout } from './components/sessionTimer';
 
 
 
@@ -18,6 +19,8 @@ import { auth } from './config/firebase-config';
 function App() {
 
   const navigate = useNavigate();
+
+  useSessionTimeout();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -43,21 +46,6 @@ function App() {
   }, [navigate, auth]);
 
 
-  useEffect(() => {
-
-    const handleActivity = () => resetSessionTimer();
-
-    window.addEventListener("click", handleActivity);
-    window.addEventListener("keydown", handleActivity);
-    window.addEventListener("scroll", handleActivity);
-
-    //remove when clean up
-    return () => {
-      window.removeEventListener("click", handleActivity);
-      window.removeEventListener("keydown", handleActivity);
-      window.removeEventListener("scroll", handleActivity);
-    };
-  }, []);
 
 
 
