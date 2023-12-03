@@ -39,7 +39,7 @@ function App() {
     return () => {
       unsubscribe();
     };
-  }, [navigate, auth]);
+  }, [navigate]);
 
 
 
