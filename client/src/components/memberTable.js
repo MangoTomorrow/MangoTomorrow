@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 import { db } from '../config/firebase-config';
-import { collection, getDocs, query, where, updateDoc, doc, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, updateDoc, doc, onSnapshot } from 'firebase/firestore';
 
 export default function MemberTable() {
   const [members, setMembers] = useState([]);
