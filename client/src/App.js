@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import SignIn from './components/login';
 import SignUpForm from './components/signUpForm';
@@ -8,38 +8,17 @@ import Dashboard from './components/adminDashboard';
 import { AuthProvider } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
 import EmailVerificationPage from './components/emailVerificationPage';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './config/firebase-config';
-import { useSessionTimeout } from './components/sessionTimer';
+import { useSessionTimeout } from './hooks/sessionTimer';
+import { useAuthNavigation } from './hooks/useAuthNaviation';
 
 
 
 
 function App() {
 
-  const navigate = useNavigate();
-
   useSessionTimeout();
+  useAuthNavigation();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if(user) {
-
-        const idTokenResult = await user.getIdTokenResult();
-        if(idTokenResult.claims.admin) {
-          navigate('/adminDashboard');
-        } else {
-          navigate('memberDashboard');
-        }
-
-      } else {
-        navigate('/');
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [navigate]);
 
 
 
