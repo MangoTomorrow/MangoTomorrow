@@ -5,7 +5,7 @@ import SignIn from './components/login';
 import SignUpForm from './components/signUpForm';
 import Album from './components/memberDashboard';
 import Dashboard from './components/adminDashboard';
-import { AuthProvider, useAuth } from './components/authContext';
+import { AuthProvider } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
 import EmailVerificationPage from './components/emailVerificationPage';
 
@@ -14,11 +14,6 @@ import EmailVerificationPage from './components/emailVerificationPage';
 
 
 function App() {
-
-  const { loading } = useAuth();
-  if(loading) {
-    return <div>Loading...</div>;
-  }
 
 
 
