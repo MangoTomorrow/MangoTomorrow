@@ -12,29 +12,27 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 import { db } from '../config/firebase-config';
-import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, query, where, updateDoc, doc, onSnapshot } from 'firebase/firestore';
 
 export default function MemberTable() {
   const [members, setMembers] = useState([]);
   const [disableReason, setDisableReason] = React.useState('');
   const [selectedMember, setSelectedMember] = React.useState(null);
 
+  //real time monitoring of state <disable/enable>
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const q = query(collection(db, 'users'), where('role', '==', 'member'));
-        const membersSnapshot = await getDocs(q);
-        const membersData = membersSnapshot.docs.map((doc) => ({
-          memberId: doc.id,
-          ...doc.data(),
-        }));
-        setMembers(membersData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
+    const q = query(collection(db, 'users'), where('role', '==', 'member'));
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const membersData = snapshot.docs.map(doc => ({
+        memberId: doc.id,
+        ...doc.data(),
+      }));
+      setMembers(membersData);
+    }, (error)=> {
+      console.error('error fetching real-time: ', error);
+    });
+    return () => unsubscribe();
   }, []);
 
   const handleDisableAccountClick = (member) => {
@@ -57,9 +55,9 @@ export default function MemberTable() {
 
       // Disable the user account using Firebase Admin SDK
       await disableUserAccount(selectedMember.memberId);
-      console.log('this is uid from parent function: ', selectedMember.memberId);
+      
 
-      console.log(`Successfully disabled an account for ${selectedMember.email}`);
+      
     } catch (error) {
       console.error('Error disabling account:', error);
     }
