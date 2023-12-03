@@ -47,16 +47,11 @@ export default function MemberTable() {
 
   const handleDisableConfirmClick = async () => {
     try {
-        //disable in the firebase
-        const admin = require('firebase-admin');
-        const user = await admin.auth().getUserByEmail(selectedMember.email);
-        await admin.auth().updateUser(user.uid, { disabled: true });
-  
-        // Update the user document in Firestore to store the reason for disabling
-        const userDocRef = doc(db, 'users', selectedMember.memberId);
-        await updateDoc(userDocRef, {
-          disabled: true,
-          disableReason: disableReason, 
+      // Update the user document in Firestore to disable the account
+      const userDocRef = doc(db, 'users', selectedMember.memberId);
+      await updateDoc(userDocRef, {
+        disabled: true, //user login will be invalid
+        disableReason: disableReason, //store the reason for disabling
       });
 
       console.log(`Successfully disabled a acccount for ${selectedMember.email}`);
@@ -96,8 +91,6 @@ export default function MemberTable() {
                     Disable Account
                   </Button>
                 </TableCell>
-                <TableCell>{member.disabled? 'Disabled' : 'Authorized'}</TableCell>
-                
               </TableRow>
             ))}
           </TableBody>
