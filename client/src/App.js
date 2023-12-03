@@ -25,7 +25,6 @@ function App() {
   return (
     <div className="App">
     <AuthProvider>
-      {!loading && (
       <Router>
         <Routes>
           <Route path="/" element={<SignIn />} />
@@ -46,7 +45,6 @@ function App() {
           
         </Routes>
       </Router>
-      )} 
     </AuthProvider>
     </div>
   );
