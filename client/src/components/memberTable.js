@@ -57,6 +57,7 @@ export default function MemberTable() {
 
       // Disable the user account using Firebase Admin SDK
       await disableUserAccount(selectedMember.memberId);
+      console.log('this is uid from parent function: ', selectedMember.memberId);
 
       console.log(`Successfully disabled an account for ${selectedMember.email}`);
     } catch (error) {
@@ -70,6 +71,8 @@ export default function MemberTable() {
 
   // Function to disable a user account using the server endpoint
   const disableUserAccount = async (userId) => {
+
+    console.log('this is uid from disable api call: ', userId);
     try {
       const response = await fetch('/disableUserAccount', {
         method: 'POST',
