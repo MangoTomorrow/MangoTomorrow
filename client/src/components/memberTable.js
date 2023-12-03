@@ -67,6 +67,22 @@ export default function MemberTable() {
     setDisableReason('');
   };
 
+  const handleEnableAccountClick = async (userId) => {
+    try {
+      const response = await fetch('/enableUserAccount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+        body: JSON.stringify({userId}),
+      });
+      const data = await response.json();
+    } catch (error) {
+      console.error('error enabling user account: ', error);
+    }
+  };
+
   // Function to disable a user account using the server endpoint
   const disableUserAccount = async (userId) => {
 
@@ -110,10 +126,15 @@ export default function MemberTable() {
                 <TableCell>{member.firstName}</TableCell>
                 <TableCell>{member.lastName}</TableCell>
                 <TableCell>
-                  {/* Disable Account button */}
-                  <Button onClick={() => handleDisableAccountClick(member)}>
+                 {member.disabled ? (
+                  <Button onClick={() => handleEnableAccountClick(selectedMember.memberId)}>
+                    Enable Account
+                  </Button> 
+                 ):(
+                  <Button onClick={() => handleDisableAccountClick(selectedMember.memberId)}>
                     Disable Account
                   </Button>
+                 )}
                 </TableCell>
                 <TableCell>{member.disabled ? 'Disabled' : 'Authorized'}</TableCell>
               </TableRow>

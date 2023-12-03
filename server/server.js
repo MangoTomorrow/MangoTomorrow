@@ -40,6 +40,22 @@ app.post('/getUserRole', (req, res) => {
   });
 });
 
+app.post('/enableUserAccount', async(req, res) => {
+  try {
+    const userId = req.body.userId;
+
+    await admin.auth().updateUser(userId, { disabled: false });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('error enabling user: ', error);
+    res.status(500).json({ error: 'internal server error '});
+  }
+});
+
+
+
+
 // New route for disabling a user account
 app.post('/disableUserAccount', async (req, res) => {
   try {
