@@ -13,13 +13,9 @@ const fetchUserName = async (userId) => {
     const docSnap = await getDoc(userRef);
     if(docSnap.exists()) {
       const userData = docSnap.data();
-      return { 
-        
-        name: `${userData.firstName} ${userData.lastName}`,
-        role: userData.role
+      return `${userData.firstName} ${userData.lastName}`;
     
-    
-      };
+      
 
     } else {
       console.log('user not found');
@@ -63,6 +59,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
       
       
       const role = await getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
+      console.log('this is role from getUserRoleAndProceed', role);
       if(role) {
         
         setIsAuthenticated(true);
