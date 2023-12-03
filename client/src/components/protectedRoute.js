@@ -5,16 +5,18 @@ import { useAuth } from './authContext';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
     const { isAuthenticated, userRole, loading } = useAuth();
-    console.log('ProtectedRoute:', { isAuthenticated, userRole, loading });    
-    if(loading) {
-        return <div>loading ....</div>;
+
+
+    const isRoleDetermining = isAuthenticated && userRole === null;
+
+    if (loading || isRoleDetermining) {
+        return <div>Loading...</div>; 
     }
 
-
-    if(!isAuthenticated || (allowedRoles && !allowedRoles.includes(userRole))) {
-        
+    if (!isAuthenticated || (allowedRoles && !allowedRoles.includes(userRole))) {
         return <Navigate to="/" />;
     }
+
     return children;
 };
 
