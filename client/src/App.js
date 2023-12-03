@@ -5,7 +5,7 @@ import SignIn from './components/login';
 import SignUpForm from './components/signUpForm';
 import Album from './components/memberDashboard';
 import Dashboard from './components/adminDashboard';
-import { useAuth } from './components/authContext';
+import { AuthProvider, useAuth } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
 import EmailVerificationPage from './components/emailVerificationPage';
 
@@ -24,8 +24,8 @@ function App() {
 
   return (
     <div className="App">
-
-      
+    <AuthProvider>
+      {!loading && (
       <Router>
         <Routes>
           <Route path="/" element={<SignIn />} />
@@ -46,8 +46,8 @@ function App() {
           
         </Routes>
       </Router>
-      
-  
+      )} 
+    </AuthProvider>
     </div>
   );
 }
