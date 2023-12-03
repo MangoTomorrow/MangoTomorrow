@@ -8,42 +8,12 @@ import Dashboard from './components/adminDashboard';
 import { AuthProvider } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
 import EmailVerificationPage from './components/emailVerificationPage';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './config/firebase-config';
-import { useSessionTimeout } from './components/sessionTimer';
+
 
 
 
 
 function App() {
-
-  const navigate = useNavigate();
-
-  useSessionTimeout();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if(user) {
-
-        const idTokenResult = await user.getIdTokenResult();
-        if(idTokenResult.claims.admin) {
-          navigate('/adminDashboard');
-        } else {
-          navigate('memberDashboard');
-        }
-
-      } else {
-        navigate('/');
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [navigate, auth]);
-
-
-
-
 
 
   return (
