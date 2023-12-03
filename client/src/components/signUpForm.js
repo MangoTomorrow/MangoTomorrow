@@ -59,6 +59,7 @@ export default function SignUpForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     const { email, password, firstName, lastName } = formData;
     
     //if incorrect email format, console log. 
@@ -70,6 +71,7 @@ export default function SignUpForm() {
     try {
       //call the Firebase authentication function for user registration
       await signUp(email, password);
+
 
 
       //temp store user data 

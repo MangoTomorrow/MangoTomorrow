@@ -14,6 +14,9 @@ const fetchUserName = async (userId) => {
     if(docSnap.exists()) {
       const userData = docSnap.data();
       return `${userData.firstName} ${userData.lastName}`;
+    
+      
+
     } else {
       console.log('user not found');
       return null;
@@ -56,9 +59,18 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
       
       
       const role = await getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
+      
+
+      
       if(role) {
         
         setIsAuthenticated(true);
+        await setDoc(userRef, { ...docSnap.data(), role,
+          disableReason: docSnap.exists() && docSnap.data().disableReason !== undefined ? docSnap.data().disableReason : null,
+          disabled: docSnap.exists() && docSnap.data().disabled !== undefined ? docSnap.data().disabled : false
+        
+        }, { merge: true});
+        
       }
     } catch (error) {
       onLoginFailure('error checking user data: ', error.message);
