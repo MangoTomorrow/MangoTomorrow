@@ -139,7 +139,7 @@ export default function MemberTable() {
                     Enable Account
                   </Button> 
                  ):(
-                  <Button onClick={() => handleDisableAccountClick(selectedMember.memberId)}>
+                  <Button onClick={() => handleDisableAccountClick(member)}>
                     Disable Account
                   </Button>
                  )}
