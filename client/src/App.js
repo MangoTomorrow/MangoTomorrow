@@ -1,6 +1,6 @@
 import './App.css';
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import SignIn from './components/login';
 import SignUpForm from './components/signUpForm';
 import Album from './components/memberDashboard';
@@ -8,13 +8,60 @@ import Dashboard from './components/adminDashboard';
 import { AuthProvider } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
 import EmailVerificationPage from './components/emailVerificationPage';
-
-
+import { startSessionTime, resetSessionTimer } from './components/sessionTimer';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './config/firebase-config';
 
 
 
 
 function App() {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if(user) {
+
+        startSessionTime();
+
+        const idTokenResult = await user.getIdTokenResult();
+        if(idTokenResult.claims.admin) {
+          navigate('/adminDashboard');
+        } else {
+          navigate('memberDashboard');
+        }
+
+      } else {
+        clearTimeout(sessionTimer);
+        navigate('/');
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate, auth]);
+
+
+  useEffect(() => {
+
+    const handleActivity = () => resetSessionTimer();
+
+    window.addEventListener("click", handleActivity);
+    window.addEventListener("keydown", handleActivity);
+    window.addEventListener("scroll", handleActivity);
+
+    //remove when clean up
+    return () => {
+      window.removeEventListener("click", handleActivity);
+      window.removeEventListener("keydown", handleActivity);
+      window.removeEventListener("scroll", handleActivity);
+    };
+  }, []);
+
+
+
+
   return (
     <div className="App">
     <AuthProvider>
