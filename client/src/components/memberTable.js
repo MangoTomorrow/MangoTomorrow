@@ -38,7 +38,7 @@ export default function MemberTable() {
 
   const handleDisableAccountClick = (member) => {
     setSelectedMember(member);
-    setDisableReason(''); // Clear the reason for next member
+    setDisableReason(''); // Clear the reason for the next member
   };
 
   const handleDisableReasonChange = (event) => {
@@ -47,18 +47,17 @@ export default function MemberTable() {
 
   const handleDisableConfirmClick = async () => {
     try {
-        const admin = require('firebase-admin');
-        const user = await admin.auth().getUserByEmail(selectedMember.email);
-        await admin.auth().updateUser(user.uid, { disabled: true });
-  
-        // Update the user document in Firestore to store the reason for disabling
-        const userDocRef = doc(db, 'users', selectedMember.memberId);
-        await updateDoc(userDocRef, {
-          disabled: true,
-          disableReason: disableReason, // Store the reason for disabling
+      // Update the user document in Firestore to disable the account
+      const userDocRef = doc(db, 'users', selectedMember.memberId);
+      await updateDoc(userDocRef, {
+        disabled: true, // User login will be invalid
+        disableReason: disableReason, // Store the reason for disabling
       });
 
-      console.log(`Successfully disabled a acccount for ${selectedMember.email}`);
+      // Disable the user account using Firebase Admin SDK
+      await disableUserAccount(selectedMember.memberId);
+
+      console.log(`Successfully disabled an account for ${selectedMember.email}`);
     } catch (error) {
       console.error('Error disabling account:', error);
     }
@@ -66,6 +65,24 @@ export default function MemberTable() {
     // Clear the selected member and reason
     setSelectedMember(null);
     setDisableReason('');
+  };
+
+  // Function to disable a user account using the server endpoint
+  const disableUserAccount = async (userId) => {
+    try {
+      const response = await fetch('/disableUserAccount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
+
+      const data = await response.json();
+      console.log(data); // Log the response from the server
+    } catch (error) {
+      console.error('Error disabling user account:', error);
+    }
   };
 
   return (
@@ -78,6 +95,7 @@ export default function MemberTable() {
               <TableCell>Member First Name</TableCell>
               <TableCell>Member Last Name</TableCell>
               <TableCell>Action</TableCell>
+              <TableCell>Account Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,8 +113,7 @@ export default function MemberTable() {
                     Disable Account
                   </Button>
                 </TableCell>
-                <TableCell>{member.disabled? 'Disabled' : 'Authorized'}</TableCell>
-                
+                <TableCell>{member.disabled ? 'Disabled' : 'Authorized'}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -105,7 +122,9 @@ export default function MemberTable() {
       {/* Disable Account Dialog */}
       {selectedMember && (
         <div>
-          <Typography variant="h6" sx={{ mb: 2, mt: 3, color: 'primary.main'}}>Disable Account: {selectedMember.email}</Typography>
+          <Typography variant="h6" sx={{ mb: 2, mt: 3, color: 'primary.main' }}>
+            Disable Account: {selectedMember.email}
+          </Typography>
           <TextField
             label="Reason"
             multiline

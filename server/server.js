@@ -1,16 +1,9 @@
-
-
-
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
 const path = require('path');
 const admin = require('firebase-admin');
 const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.json');
-
-
-
-
 
 app.use(express.json());
 admin.initializeApp({
@@ -47,35 +40,44 @@ app.post('/getUserRole', (req, res) => {
   });
 });
 
+// New route for disabling a user account
+app.post('/disableUserAccount', async (req, res) => {
+  try {
+    const userId = req.body.userId;
+
+    // Disable the user account using Firebase Admin SDK
+    await admin.auth().updateUser(userId, { disabled: true });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error disabling user account:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 const setEmailAsAdmin = async (email) => {
   try {
     const user = await admin.auth().getUserByEmail(email);
     await admin.auth().setCustomUserClaims(user.uid, { admin: true });
-    console.log('admin role set for ${email}');
-
+    console.log(`Admin role set for ${email}`);
   } catch (error) {
-    console.error('error setting admin role: ', error);
+    console.error('Error setting admin role: ', error);
   }
 };
 
 setEmailAsAdmin('tjdgns1256@gmail.com');
 
-
 function isInitialAdmin(email) {
   const initialAdminEmails = ['tjdgns1256@gmail.com', 'anthony.shen11@gmail.com'];
   return initialAdminEmails.includes(email);
-};
-
+}
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-  });
-
-
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+  console.log(`Server is running on port ${port}`);
+});
