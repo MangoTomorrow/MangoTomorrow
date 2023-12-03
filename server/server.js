@@ -1,83 +1,142 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 8080;
-const path = require('path');
-const admin = require('firebase-admin');
-const serviceAccount = require('/home/ec2-user/cppLiftingClub/cppLiftingClubKey.json');
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { useState, useEffect } from 'react';
+import { db } from '../config/firebase-config';
+import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
 
-app.use(express.json());
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+export default function MemberTable() {
+  const [members, setMembers] = useState([]);
+  const [disableReason, setDisableReason] = React.useState('');
+  const [selectedMember, setSelectedMember] = React.useState(null);
 
-app.post('/setAdminRole', (req, res) => {
-  const email = req.body.email;
-  const customClaims = { admin: true };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const q = query(collection(db, 'users'), where('role', '==', 'member'));
+        const membersSnapshot = await getDocs(q);
+        const membersData = membersSnapshot.docs.map((doc) => ({
+          memberId: doc.id,
+          ...doc.data(),
+        }));
+        setMembers(membersData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  if (isInitialAdmin(email)) {
-    admin.auth().getUserByEmail(email).then((userRecord) => {
-      return admin.auth().setCustomUserClaims(userRecord.uid, customClaims).then(() => {
-        res.json({ success: true });
+    fetchData();
+  }, []);
+
+  const handleDisableAccountClick = (member) => {
+    setSelectedMember(member);
+    setDisableReason(''); // Clear the reason for the next member
+  };
+
+  const handleDisableReasonChange = (event) => {
+    setDisableReason(event.target.value);
+  };
+
+  const handleDisableConfirmClick = async () => {
+    try {
+      // Update the user document in Firestore to disable the account
+      const userDocRef = doc(db, 'users', selectedMember.memberId);
+      await updateDoc(userDocRef, {
+        disabled: true, // User login will be invalid
+        disableReason: disableReason, // Store the reason for disabling
       });
-    }).catch((error) => {
-      console.error('Error in setting admin role:', error);
-      res.status(500).send('Error in setting admin role');
-    });
-  } else {
-    res.status(400).send('Email is not recognized as an initial admin');
-  }
-});
 
-app.post('/getUserRole', (req, res) => {
-  const { email } = req.body;
+      // Disable the user account using Firebase Admin SDK
+      await disableUserAccount(selectedMember.memberId);
 
-  admin.auth().getUserByEmail(email).then((userRecord) => {
-    const isAdmin = userRecord.customClaims && userRecord.customClaims.admin;
-    res.json({ role: isAdmin ? 'admin' : 'member' });
-  }).catch((error) => {
-    console.error('Error fetching user data:', error);
-    res.status(500).send('Internal server error');
-  });
-});
+      console.log(`Successfully disabled an account for ${selectedMember.email}`);
+    } catch (error) {
+      console.error('Error disabling account:', error);
+    }
 
-// New route for disabling a user account
-app.post('/disableUserAccount', async (req, res) => {
-  try {
-    const userId = req.body.userId;
+    // Clear the selected member and reason
+    setSelectedMember(null);
+    setDisableReason('');
+  };
 
-    // Disable the user account using Firebase Admin SDK
-    await admin.auth().updateUser(userId, { disabled: true });
+  // Function to disable a user account using the server endpoint
+  const disableUserAccount = async (userId) => {
+    try {
+      const response = await fetch('/disableUserAccount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
 
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error disabling user account:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+      const data = await response.json();
+      console.log(data); // Log the response from the server
+    } catch (error) {
+      console.error('Error disabling user account:', error);
+    }
+  };
 
-const setEmailAsAdmin = async (email) => {
-  try {
-    const user = await admin.auth().getUserByEmail(email);
-    await admin.auth().setCustomUserClaims(user.uid, { admin: true });
-    console.log(`Admin role set for ${email}`);
-  } catch (error) {
-    console.error('Error setting admin role: ', error);
-  }
-};
-
-setEmailAsAdmin('tjdgns1256@gmail.com');
-
-function isInitialAdmin(email) {
-  const initialAdminEmails = ['tjdgns1256@gmail.com', 'anthony.shen11@gmail.com'];
-  return initialAdminEmails.includes(email);
+  return (
+    <div>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="Member Table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Member Email</TableCell>
+              <TableCell>Member First Name</TableCell>
+              <TableCell>Member Last Name</TableCell>
+              <TableCell>Action</TableCell>
+              <TableCell>Account Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {members.map((member) => (
+              <TableRow
+                key={member.memberId}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell>{member.email}</TableCell>
+                <TableCell>{member.firstName}</TableCell>
+                <TableCell>{member.lastName}</TableCell>
+                <TableCell>
+                  {/* Disable Account button */}
+                  <Button onClick={() => handleDisableAccountClick(member)}>
+                    Disable Account
+                  </Button>
+                </TableCell>
+                <TableCell>{member.disabled ? 'Disabled' : 'Authorized'}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* Disable Account Dialog */}
+      {selectedMember && (
+        <div>
+          <Typography variant="h6" sx={{ mb: 2, mt: 3, color: 'primary.main' }}>
+            Disable Account: {selectedMember.email}
+          </Typography>
+          <TextField
+            label="Reason"
+            multiline
+            rows={4}
+            fullWidth
+            value={disableReason}
+            onChange={handleDisableReasonChange}
+            sx={{ mb: 2 }}
+          />
+          <Button onClick={handleDisableConfirmClick}>Confirm Disable</Button>
+        </div>
+      )}
+    </div>
+  );
 }
-
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
