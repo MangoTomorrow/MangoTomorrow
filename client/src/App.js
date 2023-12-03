@@ -8,21 +8,12 @@ import Dashboard from './components/adminDashboard';
 import { AuthProvider } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
 import EmailVerificationPage from './components/emailVerificationPage';
-import { useSessionTimeout } from './hooks/sessionTimer';
-import { useAuthNavigation } from './hooks/useAuthNaviation';
+
 
 
 
 
 function App() {
-
-  useSessionTimeout();
-  useAuthNavigation();
-
-
-
-
-
 
 
   return (
