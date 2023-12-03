@@ -28,7 +28,6 @@ export default function MemberTable() {
         memberId: doc.id,
         ...doc.data(),
       }));
-      console.log('membersdata: ', membersData);
       setMembers(membersData);
     }, (error)=> {
       console.error('error fetching real-time: ', error);
@@ -94,7 +93,7 @@ export default function MemberTable() {
   // Function to disable a user account using the server endpoint
   const disableUserAccount = async (userId) => {
 
-    console.log('this is uid from disable api call: ', userId);
+    
     try {
       const response = await fetch('/disableUserAccount', {
         method: 'POST',

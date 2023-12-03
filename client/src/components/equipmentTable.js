@@ -29,7 +29,6 @@ export default function EquipmentTable() {
                 const reservations = reservationData.filter(reservation => reservation.equipmentId === equipment.equipmentId);
                 return { ...equipment, reservations };
             });
-            console.log(reservationData);
             setCombinedData(combined);
         };
 

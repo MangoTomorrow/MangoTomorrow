@@ -35,7 +35,7 @@ export default function SplitButton({ onSelectTimeFrame, reservedTimeFrames }) {
     setSelectedIndex(index);
     setOpen(false);
     onSelectTimeFrame(options[index]);
-    console.log('selected time frame from callback prop: ', options[index]);
+    
   };
 
   const handleToggle = () => {
