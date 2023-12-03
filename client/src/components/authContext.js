@@ -10,12 +10,12 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ( {children} ) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState(null);
-    const [user, setUser] = useState({});
+  
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             console.log(user);
-            setUser(user);
+            
         })
 
         return () => {
