@@ -69,7 +69,13 @@ export default function MemberTable() {
   };
 
   const handleEnableAccountClick = async (userId) => {
-    try {
+
+    try{
+      const userDocRef = doc(db, 'users', userId);
+      await updateDoc(userDocRef, {
+        disabled: false,
+    });
+    
       const response = await fetch('/enableUserAccount', {
         method: 'POST',
         headers: {
