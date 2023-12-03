@@ -28,6 +28,7 @@ export default function MemberTable() {
         memberId: doc.id,
         ...doc.data(),
       }));
+      console.log('membersdata: ', membersData);
       setMembers(membersData);
     }, (error)=> {
       console.error('error fetching real-time: ', error);
