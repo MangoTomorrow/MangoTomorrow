@@ -97,7 +97,7 @@ export default function SignInSide() {
               <FitnessCenterIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              CPP Lifting Club
+              Bronco Lifting -CPP Lifting Club 
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
