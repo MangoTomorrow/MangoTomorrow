@@ -66,7 +66,7 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
         
         setIsAuthenticated(true);
         await setDoc(userRef, { ...docSnap.data(), role,
-          disableReason: docSnap.exists() && docSnap.data().disabledReason !== undefined ? docSnap.data().disabledReason : null,
+          disableReason: docSnap.exists() && docSnap.data().disableReason !== undefined ? docSnap.data().disableReason : null,
           disabled: docSnap.exists() && docSnap.data().disabled !== undefined ? docSnap.data().disabled : false
         
         }, { merge: true});
