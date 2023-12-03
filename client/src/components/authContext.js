@@ -13,11 +13,13 @@ export const AuthProvider = ( {children} ) => {
     const [userRole, setUserRole] = useState(null);
     const [loading, setLoading] = useState(true);
    
-  
+    //firebase onAuthStateChanged() is async and needs time to load role back on reload.
+    //implemented loading screen in between to give time for loading of role again.
+    // prevents redirection to '/' on any page reload.
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            console.log('Auth State Changed:', user);
+            
             if(user){
                 setIsAuthenticated(true);
                 
