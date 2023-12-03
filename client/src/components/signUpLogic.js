@@ -44,6 +44,8 @@ const handleEmailVerification = async (actionCode, userData) => {
             lastName: userData.lastName,
             email: userData.email,
             role: userData.role,
+            disabled: false,
+            disableReason: "null"
         });
 
     } catch (error) {
