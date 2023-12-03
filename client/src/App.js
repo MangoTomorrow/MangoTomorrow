@@ -8,7 +8,6 @@ import Dashboard from './components/adminDashboard';
 import { AuthProvider } from './components/authContext';
 import ProtectedRoute from './components/protectedRoute';
 import EmailVerificationPage from './components/emailVerificationPage';
-import { startSessionTime, resetSessionTimer } from './components/sessionTimer';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './config/firebase-config';
 import { useSessionTimeout } from './components/sessionTimer';
@@ -26,8 +25,6 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if(user) {
 
-        startSessionTime();
-
         const idTokenResult = await user.getIdTokenResult();
         if(idTokenResult.claims.admin) {
           navigate('/adminDashboard');
@@ -36,7 +33,6 @@ function App() {
         }
 
       } else {
-        clearTimeout(sessionTimer);
         navigate('/');
       }
     });
