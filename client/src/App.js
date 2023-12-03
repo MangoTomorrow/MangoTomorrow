@@ -16,6 +16,7 @@ import EmailVerificationPage from './components/emailVerificationPage';
 function App() {
 
 
+
   return (
     <div className="App">
     <AuthProvider>

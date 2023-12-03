@@ -1,8 +1,9 @@
 //login logic uses firebase to authenticate users and log them in. 
 
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { auth, db } from '../config/firebase-config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+
 
 
 
@@ -31,9 +32,10 @@ export { fetchUserName };
 //check if user verified email or not
 const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthenticated, setUserRole ) => {
 
-  
-
-  signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
+  setPersistence(auth, browserSessionPersistence).then(() => { 
+    return signInWithEmailAndPassword(auth, email, password);
+  })
+    .then(async (userCredential) => {
     const user = userCredential.user;
 
     if (!user.emailVerified) {
