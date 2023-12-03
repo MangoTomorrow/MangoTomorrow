@@ -59,6 +59,7 @@ export default function SignUpForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const defaultRole = 'member';
     const { email, password, firstName, lastName } = formData;
     
     //if incorrect email format, console log. 
@@ -72,11 +73,13 @@ export default function SignUpForm() {
       await signUp(email, password);
 
 
+
       //temp store user data 
       localStorage.setItem('pendingUserData', JSON.stringify({
         firstName,
         lastName,
         email,
+        role: defaultRole,
       }))
 
       console.log('User registered successfully with data: ', localStorage);

@@ -13,7 +13,14 @@ const fetchUserName = async (userId) => {
     const docSnap = await getDoc(userRef);
     if(docSnap.exists()) {
       const userData = docSnap.data();
-      return `${userData.firstName} ${userData.lastName}`;
+      return { 
+        
+        name: `${userData.firstName} ${userData.lastName}`,
+        role: userData.role
+    
+    
+      };
+
     } else {
       console.log('user not found');
       return null;
