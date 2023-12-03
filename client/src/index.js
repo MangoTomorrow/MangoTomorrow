@@ -1,17 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+
 import { AuthProvider } from './components/authContext';
 import './config/firebase-config';
 import App from './App';
 
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container); // Create a root.
+
+root.render(
   <React.StrictMode>
     <AuthProvider>
       <App />
     </AuthProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
