@@ -1,7 +1,6 @@
 //main login/home page
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,14 +8,13 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import handleLogin from './loginLogic';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './authContext';
 import { Alert } from '@mui/material';
 import { useState } from 'react';
+import projectLogo from '../logo/projectLogo.jpg';
 
 
 
@@ -82,12 +80,10 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main', display: 'flex', justifyContent: 'center' }}>
-              <FitnessCenterIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              CPP Lifting Club
-            </Typography>
+            
+              <img src={projectLogo} alt="Project Logo" style={{ height: '30%', width: '30%' }}/>
+            
+            
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
