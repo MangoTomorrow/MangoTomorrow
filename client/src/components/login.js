@@ -5,8 +5,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -17,20 +15,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import handleLogin from './loginLogic';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './authContext';
+import { Alert } from '@mui/material';
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        MangoTomorrow 
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -48,8 +36,12 @@ export default function SignInSide() {
     }
   };
 
+  const [loginError, setLoginError] = useState(false);
+
   const onLoginFailure = (error) => {
     console.error('login fail', error);
+    setLoginError(true);
+    setTimeout(() => setLoginError(false), 3000);
   }
 
 
@@ -117,12 +109,17 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
-              <Typography sx={{ textAlign: 'left'}}> 
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-              </Typography>
+              
+              {loginError && (
+                <Alert
+                  severity='error'
+                  onClose={() => setLoginError(false)}
+                  sx={{ mb:2 }}
+                >
+                  Please check your email or password again.
+                </Alert>
+              )};
+
               <Button
                 type="submit"
                 fullWidth
@@ -132,13 +129,7 @@ export default function SignInSide() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Typography sx={{ textAlign: 'left'}}> 
-                    <Link href="#" variant="body2" >
-                      Forgot password?
-                    </Link>
-                  </Typography>
-                </Grid>
+                
                 <Grid item>
                   <Link href="/signUp" variant="body2">
                     {"Don't have an account? Sign Up"}
