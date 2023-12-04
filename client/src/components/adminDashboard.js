@@ -11,7 +11,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -21,18 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import MemberTable from './memberTable';
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        MangoTomorrow
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const drawerWidth = 240;
 
@@ -118,7 +106,7 @@ export default function Dashboard() {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" open={open} style={{ backgroundColor: 'black'}}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -152,13 +140,14 @@ export default function Dashboard() {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={open} >
           <Toolbar
             sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
               px: [1],
+              
             }}
           >
             
@@ -196,7 +185,7 @@ export default function Dashboard() {
             {showEquipmentTable && <EquipmentTable />}
             {showMemberTable && <MemberTable />}
               
-            <Copyright sx={{ pt: 4 }} />
+      
           </Container>
         </Box>
       </Box>

@@ -48,9 +48,16 @@ export default function EmailVerificationPage() {
 
 
     return (
-    <Card sx={{ minWidth: 100, maxWidth: 600, mt: '10%', alignSelf: 'center', height: 400, ml: '35%', borderRadius: 10, backgroundColor: '#90caf9' }}>
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            minHeight: 600, 
+         
+          }}>
+    <Card sx={{ minWidth: 100, maxWidth: 600, alignSelf: 'center', height: 400, borderRadius: 10, backgroundColor: 'white', borderColor: 'black' }}>
       <CardContent>
-        <Typography sx={{ fontSize: 50, }} color="white" gutterBottom>
+        <Typography sx={{ fontSize: 50, }} color="black" gutterBottom>
           CPP Lifting Club 
         </Typography>
         <Typography variant="h5" component="div">
@@ -87,12 +94,12 @@ export default function EmailVerificationPage() {
 
         
         
-        <Box sx={{ display: 'flex', }}>
+        <Box sx={{ display: 'absolute' }}>
         
-        <Button onClick={handleGoHome} variant='contained' sx={{mt: 2, ml: 7}}>
+        <Button onClick={handleGoHome} variant='outlined' sx={{mt: 2, ml: 4, color: 'black', fontWeight: 'bold', borderColor: 'black' }}>
             Go to Login Page
         </Button>
-        <Button onClick={resendEmail} variant='contained' sx={{ maxHeight: 35, mt:2, ml: 5}}>
+        <Button onClick={resendEmail} variant='outlined' sx={{ maxHeight: 37, mt:2, ml: 3, color: 'black', fontWeight: 'bold', borderColor: 'black'}}>
             Resend Verification Email
         </Button>
 
@@ -100,5 +107,6 @@ export default function EmailVerificationPage() {
       </CardContent>
      
     </Card>
+</Box>
     );
 }

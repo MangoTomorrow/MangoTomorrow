@@ -53,6 +53,7 @@ export default function SignInSide() {
   };
 
   return (
+    
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -62,7 +63,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://unsplash.com/collections/soJ-RWa2Rhk/powerlifting)',
+            backgroundImage: '/Users/anthonyshen/Documents/GitHub/MangoTomorrow/photos/Bronco Lifting logo 1 inverse.jpg',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -126,14 +127,15 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: 'transparent', color: 'black', fontWeight: 'bold', 
+                '&:hover': { backgroundColor: 'transparent', backgroundImage: 'linear-gradient(104deg, rgba(255, 255, 255, 1) 10%, rgba(186, 255, 201, 1) 37%, rgba(255,166,0,1) 98%)' } }}
               >
                 Sign In
               </Button>
               <Grid container>
                 
                 <Grid item>
-                  <Link href="/signUp" variant="body2">
+                  <Link href="/signUp" variant="body2" sx={{ color: 'black' }}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
@@ -143,5 +145,6 @@ export default function SignInSide() {
         </Grid>
       </Grid>
     </ThemeProvider>
+   
   );
 }

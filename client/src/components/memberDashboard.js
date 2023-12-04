@@ -4,7 +4,6 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import Card from '@mui/material/Card';
 import { Alert } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
@@ -27,6 +26,9 @@ import { getDocs, query, where, collection } from 'firebase/firestore';
 import { useLocation } from 'react-router-dom';
 import ReservationModal from './reservationsModal';
 import { auth } from '../config/firebase-config';
+import projectLogo from '../logo/projectLogo.jpg';
+
+
 
 
 
@@ -146,12 +148,16 @@ export default function Album() {
 
 
   return (
+    <div style={{ 
+      backgroundImage: 'linear-gradient(104deg, rgba(255, 255, 255, 1) 10%, rgba(186, 255, 201, 1) 37%, rgba(255,166,0,1) 98%)',
+      minHeight: '100vh',
+    }}>
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar position="relative">
+      <AppBar position="relative" style={{ backgroundColor: 'black' }}>
         <Toolbar>
-          <FitnessCenterIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" color="inherit" noWrap>
+        <img src={projectLogo} alt="Project Logo" style={{ height: '50px', width: '50px', mr: 10 }}/>
+          <Typography variant="h6" color="inherit" noWrap sx={{ ml: 3 }}>
             CPP Lifting Club
           </Typography>
         </Toolbar>
@@ -160,9 +166,9 @@ export default function Album() {
         {/* Hero unit */}
         <Box
           sx={{
-            bgcolor: 'background.paper',
             pt: 8,
             pb: 6,
+            pr: 2,
           }}
         >
           <Container maxWidth="sm">
@@ -181,11 +187,11 @@ export default function Album() {
             <Stack
               sx={{ pt: 4 }}
               direction="row"
-              spacing={2}
+              spacing={3}
               justifyContent="center"
             >
-              <Button onClick={handleViewReservationClick} variant="contained">View My Reservations</Button>
-              <Button onClick={handleSignOutClick} variant="outlined">Sign Out</Button>
+              <Button onClick={handleViewReservationClick} variant="outlined" sx={{ borderColor: 'black ', color: 'black', fontWeight: 'bold'}}>View My Reservations</Button>
+              <Button onClick={handleSignOutClick} variant="outlined" sx={{  color: 'black', borderColor: '#b43636', fontWeight: 'bold'}}>Sign Out</Button>
             </Stack>
           </Container>
 
@@ -262,5 +268,6 @@ export default function Album() {
 
 
     </ThemeProvider>
+    </div>
   );
 }
