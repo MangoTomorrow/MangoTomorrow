@@ -109,8 +109,14 @@ export default function SignInSide() {
               {loginError && (
                 <Alert
                   severity='error'
+                  sx={{
+                    position: 'absolute', 
+                    top: 0, 
+                    left: 0, 
+                    right: 0,
+                  }}
                   onClose={() => setLoginError(false)}
-                  sx={{ mb:2 }}
+                  
                 >
                   Please check your email or password again.
                 </Alert>
