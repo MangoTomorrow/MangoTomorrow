@@ -64,6 +64,8 @@ export default function SignInSide() {
           md={7}
           sx={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1534368420009-621bfab424a8?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
+            //backgroundImage2: 'url(https://images.unsplash.com/photo-1517964603305-11c0f6f66012?q=80&w=3571&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
+            //backgroundImage3: 'url(https://images.unsplash.com/photo-1544021601-3e5723f9d333?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
