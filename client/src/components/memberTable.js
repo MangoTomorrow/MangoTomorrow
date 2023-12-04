@@ -37,7 +37,7 @@ export default function MemberTable() {
 
   const handleDisableAccountClick = (member) => {
     setSelectedMember(member);
-    setDisableReason(''); // Clear the reason for the next member
+    setDisableReason(''); 
   };
 
   const handleDisableReasonChange = (event) => {
@@ -45,18 +45,15 @@ export default function MemberTable() {
   };
 
   const handleDisableConfirmClick = async () => {
-    try {
-      // Update the user document in Firestore to disable the account
+    try {  
       const userDocRef = doc(db, 'users', selectedMember.memberId);
       await updateDoc(userDocRef, {
-        disabled: true, // User login will be invalid
-        disableReason: disableReason, // Store the reason for disabling
+        disabled: true, 
+        disableReason: disableReason, 
       });
 
-      // Disable the user account using Firebase Admin SDK
       await disableUserAccount(selectedMember.memberId);
       
-
       
     } catch (error) {
       console.error('Error disabling account:', error);
@@ -90,7 +87,7 @@ export default function MemberTable() {
     }
   };
 
-  // Function to disable a user account using the server endpoint
+  
   const disableUserAccount = async (userId) => {
 
     
@@ -104,7 +101,7 @@ export default function MemberTable() {
       });
 
       const data = await response.json();
-      console.log(data); // Log the response from the server
+      console.log(data); 
     } catch (error) {
       console.error('Error disabling user account:', error);
     }

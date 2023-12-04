@@ -28,20 +28,20 @@ const cards = [
     {
         id: 4,
         name: 'Womens Pyross Bar ',
-        heading: 'Womens Pyross Bar',
+        heading: 'Womens Pyrros Bar',
         description: 'Womens Pyross bar for Olympic Weighlifting',
         imageUrl: 'https://garagegymlab.com/wp-content/uploads/2021/02/BB0008-1-300x300.jpg',
     },
     {
         id: 5,
-        name: 'Mens Pyross Bar 1',
+        name: 'Mens Pyrros Bar 1',
         heading: 'Men Pyross bar',
         description: 'Mens Pyross Bar for Olympic Weightlifting',
         imageUrl: 'https://assets.roguefitness.com/f_auto,q_auto,c_fill,g_center,w_308,h_308,b_rgb:f8f8f8/catalog/Weightlifting%20Bars%20and%20Plates/Barbells/Mens%2020KG%20Barbells/28MMSTAINLESSOLY/28MMSTAINLESSOLY-TH_gogikk.png',
     },
     {
         id: 6,
-        name: 'Mens Pyross Bar 2',
+        name: 'Mens Pyrros Bar 2',
         heading: 'Mens Pyross Bar',
         description: 'Mens Pyross Bar for Olympic Weightlifting',
         imageUrl: 'https://assets.roguefitness.com/f_auto,q_auto,c_fill,g_center,w_308,h_308,b_rgb:f8f8f8/catalog/Weightlifting%20Bars%20and%20Plates/Barbells/Mens%2020KG%20Barbells/28MMSTAINLESSOLY/28MMSTAINLESSOLY-TH_gogikk.png',

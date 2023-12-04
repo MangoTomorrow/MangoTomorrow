@@ -56,7 +56,6 @@ app.post('/enableUserAccount', async(req, res) => {
 
 
 
-// New route for disabling a user account
 app.post('/disableUserAccount', async (req, res) => {
   try {
     const userId = req.body.userId;
