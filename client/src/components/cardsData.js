@@ -35,14 +35,14 @@ const cards = [
     {
         id: 5,
         name: 'Mens Pyrros Bar 1',
-        heading: 'Men Pyross bar',
+        heading: 'Men Pyrros bar',
         description: 'Mens Pyross Bar for Olympic Weightlifting',
         imageUrl: 'https://assets.roguefitness.com/f_auto,q_auto,c_fill,g_center,w_308,h_308,b_rgb:f8f8f8/catalog/Weightlifting%20Bars%20and%20Plates/Barbells/Mens%2020KG%20Barbells/28MMSTAINLESSOLY/28MMSTAINLESSOLY-TH_gogikk.png',
     },
     {
         id: 6,
         name: 'Mens Pyrros Bar 2',
-        heading: 'Mens Pyross Bar',
+        heading: 'Mens Pyrros Bar',
         description: 'Mens Pyross Bar for Olympic Weightlifting',
         imageUrl: 'https://assets.roguefitness.com/f_auto,q_auto,c_fill,g_center,w_308,h_308,b_rgb:f8f8f8/catalog/Weightlifting%20Bars%20and%20Plates/Barbells/Mens%2020KG%20Barbells/28MMSTAINLESSOLY/28MMSTAINLESSOLY-TH_gogikk.png',
     },
