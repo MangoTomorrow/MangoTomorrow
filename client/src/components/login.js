@@ -63,7 +63,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: '/Users/anthonyshen/Documents/GitHub/MangoTomorrow/photos/Bronco Lifting logo 1 inverse.jpg',
+            backgroundImage: 'url(https://unsplash.com/collections/soJ-RWa2Rhk/powerlifting)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
