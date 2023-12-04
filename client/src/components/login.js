@@ -16,7 +16,7 @@ import handleLogin from './loginLogic';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './authContext';
 import { Alert } from '@mui/material';
-
+import { useState } from 'react';
 
 
 
@@ -136,7 +136,6 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
