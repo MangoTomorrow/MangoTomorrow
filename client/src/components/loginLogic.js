@@ -55,8 +55,11 @@ const handleLogin = (email, password, onLoginSuccess, onLoginFailure, setIsAuthe
       
       const role = await getUserRoleAndProceed(email, onLoginSuccess, onLoginFailure, setUserRole);
       if(role) {
-        
         setIsAuthenticated(true);
+
+        if(!docSnap.exists() || !docSnap.data().role) {
+          await setDoc(userRef, {...docSnap.data(), role: role }, {merge:true});
+        }
       }
     } catch (error) {
       onLoginFailure('error checking user data: ', error.message);
@@ -74,9 +77,12 @@ const getUserRoleAndProceed = async (email, onLoginSuccess, onLoginFailure, setU
   try {
     const role = await getUserRole(email);
     setUserRole(role);
+
     const userName = await fetchUserName(auth.currentUser.uid);
     onLoginSuccess(role, userName);
+
     return role;
+    
   } catch (error) {
     onLoginFailure('error checking user role: ', error.message);
     return null;
