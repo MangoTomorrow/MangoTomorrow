@@ -123,7 +123,7 @@ export default function SignInSide() {
                 >
                   Please check your email or password again.
                 </Alert>
-              )};
+              )}
 
               <Button
                 type="submit"
